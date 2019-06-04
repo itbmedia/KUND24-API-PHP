@@ -1,0 +1,22 @@
+{
+    "name": "itbmedia/kund24-api-php",
+    "description": "Integrate Kund24 Api",
+    "keywords": [
+        "crm",
+        "sales",
+        "marketing",
+        "leads",
+        "prospects",
+        "api"
+    ],
+    "homepage": "http://www.kund24.se",
+    "license": "proprietary",
+    "require": {
+        "php": ">=5.5",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {"Kund24\\": "src/"}
+    }
+}
