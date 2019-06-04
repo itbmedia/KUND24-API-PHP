@@ -26,6 +26,8 @@ class Contact implements \JsonSerializable {
 
 	private $country = 'SE';
 
+	private $reference;
+
 	private $note;
 
 	private $tags = array();
@@ -109,6 +111,13 @@ class Contact implements \JsonSerializable {
 	public function getCity() {
 		return $this->city;
 	}
+	public function setReference($reference) {
+		$this->reference = $reference;
+		return $this;
+	}
+	public function getReference() {
+		return $this->reference;
+	}
 	public function setCountry($country) {
 		if (strlen($country) != 2) {
 			throw new \Exception('Country code must be 2 letters');
@@ -182,6 +191,9 @@ class Contact implements \JsonSerializable {
 		if (array_key_exists("parent", $data)) {
 			$this->setCompany($data['parent']['name']);
 		}
+		if (array_key_exists("reference", $data)) {
+			$this->setReference($data['reference']);
+		}
 		if (array_key_exists("tags", $data)) {
 			$tags = array();
 			foreach ($data['tags'] as $tag) {
@@ -205,6 +217,7 @@ class Contact implements \JsonSerializable {
         	"city" => $this->getCity(),
         	"country" => $this->getCountry(),
         	"note" => $this->getNote(),
+        	"reference" => $this->getReference(),
         	"tags" => $this->getTags(),
         );
     }
