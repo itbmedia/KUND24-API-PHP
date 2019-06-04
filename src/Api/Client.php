@@ -6,9 +6,12 @@ class Client {
 
 	private $apiKey;
 
+    private $accountId;
+
 	private $baseUrl = 'https://www.kund24.se/api';
 
-	public function __construct($apiKey) {
+	public function __construct($accountId, $apiKey) {
+        $this->accountId = $accountId;
 		$this->apiKey = $apiKey;
 	}
 	public function createDeal(\Kund24\Api\Models\Deal $deal) {
@@ -32,7 +35,7 @@ class Client {
             $url .= "?".ltrim($data, "?");
         }
 
-        $url .= ((strstr($url, "?")) ? '&':'?').http_build_query(array("token" => $this->apiKey));
+        $url .= ((strstr($url, "?")) ? '&':'?').http_build_query(array("token" => $this->apiKey, "acc_id" => $this->accountId));
 
         $ch = curl_init($url); 
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -41,7 +44,7 @@ class Client {
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'KUND24 PHP Api v1.0.0');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'KUND24 PHP Api v1.0.1');
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);

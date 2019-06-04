@@ -1,9 +1,10 @@
 <?php
 require_once("../vendor/autoload.php");
 
+$accountId = '3';
 $apiKey = 'cdfe548635c31cbb6556f1debf22a0b2';
 
-$client = new \Kund24\Api\Client($apiKey);
+$client = new \Kund24\Api\Client($accountId, $apiKey);
 
 $deal = new \Kund24\Api\Models\Deal();
 $deal->setValue(500);

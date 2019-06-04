@@ -20,7 +20,7 @@ Usage through regular PHP
 <?php 
 	require_once("path/to/dir/vendor/autoload.php");
 
-	$client = new \Kund24\Api\Client('YOUR_API_KEY');
+	$client = new \Kund24\Api\Client(YOUR_ACCOUNT_ID, 'YOUR_API_KEY');
 	
 	$contact = new \Kund24\Api\Models\Contact();
 	$contact->setEmail('lars2000@gmail.com')
