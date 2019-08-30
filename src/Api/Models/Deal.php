@@ -13,6 +13,8 @@ class Deal implements \JsonSerializable {
 
 	private $source = 'API';
 
+	private $field = 'Standardavdelning';
+
 	private $reference;
 
 	private $stage = 'Leads';
@@ -63,6 +65,13 @@ class Deal implements \JsonSerializable {
 	public function getStage() {
 		return $this->stage;
 	}
+	public function setField($field) {
+		$this->field = $field;
+		return $this;
+	}
+	public function getField() {
+		return $this->field;
+	}
 	public function setSource($source) {
 		$this->source = $source;
 		return $this;
@@ -106,6 +115,9 @@ class Deal implements \JsonSerializable {
 		if (array_key_exists("stage", $data)) {
 			$this->setStage($data['stage']['title']);
 		}
+		if (array_key_exists("field", $data)) {
+			$this->setField($data['field']['title']);
+		}
 		if (array_key_exists("content", $data)) {
 			$this->setContent($data['content']);
 		}
@@ -121,11 +133,12 @@ class Deal implements \JsonSerializable {
         	"value" => $this->getValue(),
         	"title" => $this->getTitle(),
         	"currency" => $this->getCurrency(),
+        	"field" => $this->getField(),
         	"source" => $this->getSource(),
         	"reference" => $this->getReference(),
         	"stage" => $this->getStage(),
         	"content" => $this->getContent(),
-        	"contact" => $this->getContact()->jsonSerialize(),
+        	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         );
     }
 }

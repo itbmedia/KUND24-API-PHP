@@ -8,6 +8,8 @@ class Contact implements \JsonSerializable {
 
 	private $email;
 
+	private $isCompany = false;
+
 	private $firstName;
 
 	private $lastName;
@@ -30,6 +32,8 @@ class Contact implements \JsonSerializable {
 
 	private $note;
 
+	private $metafields = array();
+
 	private $tags = array();
 
 	public function setId($id) {
@@ -38,6 +42,13 @@ class Contact implements \JsonSerializable {
 	}
 	public function getId() {
 		return $this->id;
+	}
+	public function setIsCompany($isCompany) {
+		$this->isCompany = $isCompany;
+		return $this;
+	}
+	public function getIsCompany() {
+		return $this->isCompany;
 	}
 	public function setPhone($phone) {
 		$this->phone = $phone;
@@ -141,6 +152,14 @@ class Contact implements \JsonSerializable {
 	public function getTags() {
 		return $this->tags;
 	}
+	public function addMetafield(\Kund24\Api\Models\ContactMetafield $metafield) {
+		$metafield->setContact($this);
+		$this->metafields[] = $metafield;
+		return $this;
+	}
+	public function getMetafields() {
+		return $this->metafields;
+	}
 	public function setNote($note) {
 		$this->note = $note;
 		return $this;
@@ -151,6 +170,9 @@ class Contact implements \JsonSerializable {
 	public function jsonUnserialize($data) {
 		if (array_key_exists("id", $data)) {
 			$this->setId($data['id']);
+		}
+		if (array_key_exists("is_company", $data)) {
+			$this->setIsCompany($data['is_company']);
 		}
 		if (array_key_exists("name", $data)) {
 			$this->setName($data['name']);
@@ -201,10 +223,18 @@ class Contact implements \JsonSerializable {
 			}
 			$this->setTags($tags);
 		}
+		if (array_key_exists("metafields", $data)) {
+			foreach ($data['metafields'] as $metafieldData) {
+				$metafield = new \Kund24\Api\Models\ContactMetafield();
+				$metafield->jsonUnserialize($metafieldData);
+				$this->addMetafield($metafield);
+			}
+		}
 	}
 	public function jsonSerialize() {
         return array(
         	"id" => $this->getId(),
+        	"is_company" => $this->getIsCompany(),
         	"first_name" => $this->getFirstName(),
         	"last_name" => $this->getLastName(),
         	"name" => $this->getName(),
@@ -219,6 +249,7 @@ class Contact implements \JsonSerializable {
         	"note" => $this->getNote(),
         	"reference" => $this->getReference(),
         	"tags" => $this->getTags(),
+        	"metafields" => array_map(function($metafield) { return $metafield->jsonSerialize(); }, $this->getMetafields()),
         );
     }
 }
