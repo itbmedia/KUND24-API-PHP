@@ -15,5 +15,8 @@ $contact->addMetafield(new \Kund24\Api\Models\ContactMetafield('food', 'love'));
 
 $contact = $client->createContact($contact);
 $emailCampaignId = 9;
+$metafields = array(
+	"username" => "myuser"
+);
 
-$contact = $client->addContactsToEmailCampaign($emailCampaignId, array($contact->getId()));
+$result = $client->addContactsToEmailCampaign($emailCampaignId, array($contact->getId()), $metafields); //Empty array

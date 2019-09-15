@@ -14,8 +14,8 @@ class Client {
         $this->accountId = $accountId;
 		$this->apiKey = $apiKey;
 	}
-    public function addContactsToEmailCampaign($campaignId, $contactIds = array()) {
-        $data = array("contact_ids" => $contactIds);
+    public function addContactsToEmailCampaign($campaignId, $contactIds = array(), $metafields = array()) {
+        $data = array("contact_ids" => $contactIds, "metafields" => $metafields);
         return $this->makeCurlRequest('POST', '/email_campaigns/'.$campaignId.'/contacts.json', $data);
     }
 	public function createDeal(\Kund24\Api\Models\Deal $deal) {

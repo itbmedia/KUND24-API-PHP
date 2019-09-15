@@ -27,6 +27,7 @@ Usage through regular PHP
 	->setFirstName('Fredrik')
 	->setLastName('Bengtsson')
 	->setCompany('ITB Media')
+	->addMetafield(new \Kund24\Api\Models\ContactMetafield('favorite_food', 'pizza'));
 	;
 
 	$deal = new \Kund24\Api\Models\Deal();
