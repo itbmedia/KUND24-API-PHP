@@ -14,6 +14,9 @@ class Client {
         $this->accountId = $accountId;
 		$this->apiKey = $apiKey;
 	}
+    public function getMe() {
+        return $this->makeCurlRequest('GET', '/me.json');
+    }
     public function addContactsToEmailCampaign($campaignId, $contactIds = array(), $metafields = array()) {
         $data = array("contact_ids" => $contactIds, "metafields" => $metafields);
         return $this->makeCurlRequest('POST', '/email_campaigns/'.$campaignId.'/contacts.json', $data);
