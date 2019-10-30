@@ -47,6 +47,22 @@ class Client {
 
         return $contact;
     }
+    public function updateContact(\Kund24\Api\Models\Contact $contact) {
+        $data = $contact->jsonSerialize();
+        $result = $this->makeCurlRequest('PUT', '/contacts/'.$contact->getId().'.json', $data);
+
+        $contact = new \Kund24\Api\Models\Contact();
+        $contact->jsonUnserialize($result['contact']);
+
+        return $contact;
+    }
+    public function getContact($id) {
+        $result = $this->makeCurlRequest('GET', '/contacts/'.$id.'.json');
+        $contact = new \Kund24\Api\Models\Contact();
+        $contact->jsonUnserialize($result['contact']);
+
+        return $contact;
+    }
     public function createProject(\Kund24\Api\Models\Project $project) {
         $data = $project->jsonSerialize();
         $result = $this->makeCurlRequest('POST', '/projects.json', $data);
