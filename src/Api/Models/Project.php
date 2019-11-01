@@ -9,6 +9,8 @@ class Project implements \JsonSerializable {
 
 	private $title;
 
+	private $note;
+
 	private $reference;
 
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
@@ -24,6 +26,13 @@ class Project implements \JsonSerializable {
 	}
 	public function getTitle() {
 		return $this->title;
+	}
+	private function setNote($note) {
+		$this->note = $note;
+		return $this;
+	}
+	public function getNote() {
+		return $this->note;
 	}
 	private function setReference($reference) {
 		$this->reference = $reference;
@@ -46,6 +55,9 @@ class Project implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
+		if (array_key_exists("note", $data)) {
+			$this->setNote($data['note']);
+		}
 		if (array_key_exists("reference", $data)) {
 			$this->setReference($data['reference']);
 		}
@@ -59,6 +71,7 @@ class Project implements \JsonSerializable {
         return array(
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
+        	"note" => $this->getNote(),
         	"reference" => $this->getReference(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         );
