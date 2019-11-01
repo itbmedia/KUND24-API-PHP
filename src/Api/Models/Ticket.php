@@ -31,21 +31,21 @@ class Ticket implements \JsonSerializable {
 	public function getTitle() {
 		return $this->title;
 	}
-	private function setNumber($number) {
+	public function setNumber($number) {
 		$this->number = $number;
 		return $this;
 	}
 	public function getNumber() {
 		return $this->number;
 	}
-	private function setStatus($status) {
+	public function setStatus($status) {
 		$this->status = $status;
 		return $this;
 	}
 	public function getStatus() {
 		return $this->status;
 	}
-	private function setChannel($channel) {
+	public function setChannel($channel) {
 		$this->channel = $channel;
 		return $this;
 	}

@@ -42,7 +42,7 @@ class TicketEvent implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
-	private function setMessage($message) {
+	public function setMessage($message) {
 		$this->message = $message;
 		return $this;
 	}

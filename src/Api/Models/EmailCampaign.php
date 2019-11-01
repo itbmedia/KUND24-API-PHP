@@ -17,7 +17,7 @@ class EmailCampaign implements \JsonSerializable {
 	public function getTemplate() {
 		return $this->contact;
 	}
-	private function setTitle($title) {
+	public function setTitle($title) {
 		$this->title = $title;
 		return $this;
 	}

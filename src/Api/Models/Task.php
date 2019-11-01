@@ -18,14 +18,14 @@ class Task implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
-	private function setTitle($title) {
+	public function setTitle($title) {
 		$this->title = $title;
 		return $this;
 	}
 	public function getTitle() {
 		return $this->title;
 	}
-	private function setContent($content) {
+	public function setContent($content) {
 		$this->content = $content;
 		return $this;
 	}

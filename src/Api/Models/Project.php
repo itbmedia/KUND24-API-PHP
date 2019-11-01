@@ -20,21 +20,21 @@ class Project implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
-	private function setTitle($title) {
+	public function setTitle($title) {
 		$this->title = $title;
 		return $this;
 	}
 	public function getTitle() {
 		return $this->title;
 	}
-	private function setNote($note) {
+	public function setNote($note) {
 		$this->note = $note;
 		return $this;
 	}
 	public function getNote() {
 		return $this->note;
 	}
-	private function setReference($reference) {
+	public function setReference($reference) {
 		$this->reference = $reference;
 		return $this;
 	}
