@@ -7,6 +7,12 @@ class ProjectTask implements \JsonSerializable {
 
 	private $title;
 
+	private $content;
+
+	private $type;
+
+	private $status;  
+
 	private $project;
 
 	public function setTitle($title) {
@@ -15,6 +21,34 @@ class ProjectTask implements \JsonSerializable {
 	}
 	public function getTitle() {
 		return $this->title;
+	}
+	public function setContent($content) {
+		$this->content = $content;
+		return $this;
+	}
+	public function getContent() {
+		return $this->content;
+	}
+	public function setType($type) {
+		$this->type = $type;
+		return $this;
+	}
+	public function getType() {
+		return $this->type;
+	}
+	public function setStatus($status) {
+		$this->status = $status;
+		return $this;
+	}
+	public function getStatus() {
+		return $this->status;
+	}
+	public function setReference($reference) {
+		$this->reference = $reference;
+		return $this;
+	}
+	public function getReference() {
+		return $this->reference;
 	}
 	public function setProject(\Kund24\Api\Models\Project $project) {
 		$this->project = $project;
@@ -37,17 +71,32 @@ class ProjectTask implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
+		if (array_key_exists("content", $data)) {
+			$this->setTitle($data['content']);
+		}
+		if (array_key_exists("reference", $data)) {
+			$this->setReference($data['reference']);
+		}
+		if (array_key_exists("status", $data)) {
+			$this->setStatus($data['status']);
+		}
+		if (array_key_exists("type", $data)) {
+			$this->setType($data['type']);
+		}
 		if (array_key_exists("project", $data)) {
 			$project = new \Kund24\Api\Models\Project();
 			$project->jsonUnserialize($data['project']);
-			$this->setContact($project);
+			$this->setProject($project);
 		}
 	}
 	public function jsonSerialize() {
         return array(
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
-        	"project" => (($this->getProject()) ? $this->getProject()->jsonSerialize():null),
+        	"content" => $this->getContent(),
+        	"reference" => $this->getReference(),
+        	"type" => $this->getType(),
+        	"status" => $this->getStatus(),
         );
     }
 }
