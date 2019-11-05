@@ -86,7 +86,7 @@ class Deal implements \JsonSerializable {
 	public function getCurrency() {
 		return $this->currency;
 	}
-	private function setId($id) {
+	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}

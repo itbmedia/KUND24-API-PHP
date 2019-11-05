@@ -49,7 +49,7 @@ class TicketEvent implements \JsonSerializable {
 	public function getMessage() {
 		return $this->message;
 	}
-	private function setId($id) {
+	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}

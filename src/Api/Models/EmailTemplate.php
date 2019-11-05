@@ -23,7 +23,7 @@ class EmailTemplate implements \JsonSerializable {
 	public function getTitle() {
 		return $this->title;
 	}
-	private function setId($id) {
+	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}

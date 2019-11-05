@@ -57,7 +57,7 @@ class ProjectTask implements \JsonSerializable {
 	public function getProject() {
 		return $this->project;
 	}
-	private function setId($id) {
+	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}

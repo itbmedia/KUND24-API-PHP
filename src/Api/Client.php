@@ -22,7 +22,7 @@ class Client {
         return $this->makeCurlRequest('POST', '/email_campaigns/'.$campaignId.'/contacts.json', $data);
     }
 	public function createDeal(\Kund24\Api\Models\Deal $deal) {
-		$data = $deal->jsonSerialize();
+		$data = $this->array_remove_null($deal->jsonSerialize());
 		$result = $this->makeCurlRequest('POST', '/deals.json', $data);
 		$deal = new \Kund24\Api\Models\Deal();
 		$deal->jsonUnserialize($result['deal']);
@@ -30,7 +30,7 @@ class Client {
 		return $deal;
 	}
     public function createTicket(\Kund24\Api\Models\Ticket $ticket) {
-        $data = $ticket->jsonSerialize();
+        $data = $this->array_remove_null($ticket->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/tickets.json', $data);
 
         $ticket = new \Kund24\Api\Models\Ticket();
@@ -38,8 +38,24 @@ class Client {
 
         return $ticket;
     }
+    public function updateTicket(\Kund24\Api\Models\Ticket $ticket) {
+        $data = $this->array_remove_null($ticket->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/tickets/'.$ticket->getId().'.json', $data);
+
+        $ticket = new \Kund24\Api\Models\Ticket();
+        $ticket->jsonUnserialize($result['ticket']);
+
+        return $ticket;
+    }
+    public function getTicket($id) {
+        $result = $this->makeCurlRequest('GET', '/tickets/'.$id.'.json');
+        $ticket = new \Kund24\Api\Models\Ticket();
+        $ticket->jsonUnserialize($result['ticket']);
+
+        return $ticket;
+    }
     public function createContact(\Kund24\Api\Models\Contact $contact) {
-        $data = $contact->jsonSerialize();
+        $data = $this->array_remove_null($contact->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/contacts.json', $data);
 
         $contact = new \Kund24\Api\Models\Contact();
@@ -48,7 +64,7 @@ class Client {
         return $contact;
     }
     public function updateContact(\Kund24\Api\Models\Contact $contact) {
-        $data = $contact->jsonSerialize();
+        $data = $this->array_remove_null($contact->jsonSerialize());
         $result = $this->makeCurlRequest('PUT', '/contacts/'.$contact->getId().'.json', $data);
 
         $contact = new \Kund24\Api\Models\Contact();
@@ -64,7 +80,7 @@ class Client {
         return $contact;
     }
     public function createProject(\Kund24\Api\Models\Project $project) {
-        $data = $project->jsonSerialize();
+        $data = $this->array_remove_null($project->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/projects.json', $data);
 
         $project = new \Kund24\Api\Models\Project();
@@ -72,14 +88,43 @@ class Client {
 
         return $project;
     }
+    public function updateProject(\Kund24\Api\Models\Project $project) {
+        $data = $this->array_remove_null($project->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/projects/'.$project->getId().'.json', $data);
+
+        $project = new \Kund24\Api\Models\Project();
+        $project->jsonUnserialize($result['project']);
+
+        return $project;
+    }
+    public function getProject($id) {
+        $result = $this->makeCurlRequest('GET', '/projects/'.$id.'.json');
+        $project = new \Kund24\Api\Models\Project();
+        $project->jsonUnserialize($result['project']);
+
+        return $project;
+    }
     public function createProjectTask($projectId, \Kund24\Api\Models\ProjectTask $projectTask) {
-        $data = $projectTask->jsonSerialize();
+        $data = $this->array_remove_null($projectTask->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/projects/'.$projectId.'/tasks.json', $data);
 
         $projectTask = new \Kund24\Api\Models\ProjectTask();
         $projectTask->jsonUnserialize($result['project_task']);
 
         return $projectTask;
+    }
+    private function array_remove_null($haystack) {
+        foreach ($haystack as $key => $value) {
+            if (is_array($value)) {
+                $haystack[$key] = $this->array_remove_null($haystack[$key]);
+            }
+
+            if ($haystack[$key] === null) {
+                unset($haystack[$key]);
+            }
+        }
+
+        return $haystack;
     }
 	private function makeCurlRequest($method, $path, $data = array()) {
         $method = strtoupper($method);

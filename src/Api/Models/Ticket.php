@@ -7,6 +7,8 @@ class Ticket implements \JsonSerializable {
 
 	private $contact;
 
+	private $project;
+
 	private $title;
 
 	private $number;
@@ -23,6 +25,13 @@ class Ticket implements \JsonSerializable {
 	}
 	public function getContact() {
 		return $this->contact;
+	}
+	public function setProject(\Kund24\Api\Models\Project $project) {
+		$this->project = $project;
+		return $this;
+	}
+	public function getProject() {
+		return $this->project;
 	}
 	public function setTitle($title) {
 		$this->title = $title;
@@ -52,7 +61,7 @@ class Ticket implements \JsonSerializable {
 	public function getChannel() {
 		return $this->channel;
 	}
-	private function setId($id) {
+	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
@@ -88,6 +97,11 @@ class Ticket implements \JsonSerializable {
 			$contact->jsonUnserialize($data['contact']);
 			$this->setContact($contact);
 		}
+		if (array_key_exists("project", $data)) {
+			$project = new \Kund24\Api\Models\Project();
+			$project->jsonUnserialize($data['project']);
+			$this->setProject($project);
+		}
 		if (array_key_exists("events", $data)) {
 			foreach ($data['events'] as $eventData) {
 				$event = new \Kund24\Api\Models\TicketEvent();
@@ -104,6 +118,7 @@ class Ticket implements \JsonSerializable {
         	"status" => $this->getStatus(),
         	"channel" => $this->getChannel(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
+        	"project" => (($this->getProject()) ? $this->getProject()->jsonSerialize():null),
         	"events" => array_map(function($event) { return $event->jsonSerialize(); }, $this->getEvents()),
         );
     }

@@ -32,7 +32,7 @@ class Task implements \JsonSerializable {
 	public function getContent() {
 		return $this->content;
 	}
-	private function setId($id) {
+	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}

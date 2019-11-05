@@ -50,7 +50,7 @@ class Project implements \JsonSerializable {
 	public function getReference() {
 		return $this->reference;
 	}
-	private function setId($id) {
+	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
