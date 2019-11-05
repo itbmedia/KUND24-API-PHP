@@ -24,7 +24,7 @@ class Project implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
-	public function setField(\Kund24\Api\Models\Field $field) {
+	public function setField($field) {
 		$this->field = $field;
 		return $this;
 	}
@@ -88,9 +88,7 @@ class Project implements \JsonSerializable {
 			$this->setContact($contact);
 		}
 		if (array_key_exists("field", $data)) {
-			$field = new \Kund24\Api\Models\Field();
-			$field->jsonUnserialize($data['field']);
-			$this->setField($field);
+			$this->setField($data['field']['title']);
 		}
 	}
 	public function jsonSerialize() {
@@ -98,10 +96,10 @@ class Project implements \JsonSerializable {
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
         	"note" => $this->getNote(),
+        	"field" => $this->getField(),
         	"archived" => $this->getArchived(),
         	"reference" => $this->getReference(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
-        	"field" => (($this->getField()) ? $this->getField()->jsonSerialize():null),
         );
     }
 }

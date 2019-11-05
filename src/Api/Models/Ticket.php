@@ -11,6 +11,8 @@ class Ticket implements \JsonSerializable {
 
 	private $title;
 
+	private $field;
+
 	private $number;
 
 	private $status = 'open';
@@ -26,7 +28,7 @@ class Ticket implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
-	public function setField(\Kund24\Api\Models\Field $field) {
+	public function setField($field) {
 		$this->field = $field;
 		return $this;
 	}
@@ -117,9 +119,7 @@ class Ticket implements \JsonSerializable {
 			}
 		}
 		if (array_key_exists("field", $data)) {
-			$field = new \Kund24\Api\Models\Field();
-			$field->jsonUnserialize($data['field']);
-			$this->setField($field);
+			$this->setField($data['field']['title']);
 		}
 	}
 	public function jsonSerialize() {
@@ -128,10 +128,10 @@ class Ticket implements \JsonSerializable {
         	"title" => $this->getTitle(),
         	"number" => $this->getNumber(),
         	"status" => $this->getStatus(),
+        	"field" => $this->getField(),
         	"channel" => $this->getChannel(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"project" => (($this->getProject()) ? $this->getProject()->jsonSerialize():null),
-        	"field" => (($this->getField()) ? $this->getField()->jsonSerialize():null),
         	"events" => array_map(function($event) { return $event->jsonSerialize(); }, $this->getEvents()),
         );
     }
