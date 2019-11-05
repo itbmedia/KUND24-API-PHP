@@ -26,6 +26,13 @@ class Ticket implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
+	public function setField(\Kund24\Api\Models\Field $field) {
+		$this->field = $field;
+		return $this;
+	}
+	public function getField() {
+		return $this->field;
+	}
 	public function setProject(\Kund24\Api\Models\Project $project) {
 		$this->project = $project;
 		return $this;
@@ -109,6 +116,11 @@ class Ticket implements \JsonSerializable {
 				$this->addEvent($event);
 			}
 		}
+		if (array_key_exists("field", $data)) {
+			$field = new \Kund24\Api\Models\Field();
+			$field->jsonUnserialize($data['field']);
+			$this->setField($field);
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -119,6 +131,7 @@ class Ticket implements \JsonSerializable {
         	"channel" => $this->getChannel(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"project" => (($this->getProject()) ? $this->getProject()->jsonSerialize():null),
+        	"field" => (($this->getField()) ? $this->getField()->jsonSerialize():null),
         	"events" => array_map(function($event) { return $event->jsonSerialize(); }, $this->getEvents()),
         );
     }
