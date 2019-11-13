@@ -29,6 +29,21 @@ class Client {
 
 		return $deal;
 	}
+    public function listDeals(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        $query['newest'] = 1;
+        
+        $result = $this->makeCurlRequest('GET', '/deals.json', $query);
+
+        foreach ($result['deals'] as $key => $row) {
+            $deal = new \Kund24\Api\Models\Deal();
+            $deal->jsonUnserialize($row);
+            $result['deals'][$key] = $deal;
+        }
+
+        return $result;
+    }
     public function createTicket(\Kund24\Api\Models\Ticket $ticket) {
         $data = $this->array_remove_null($ticket->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/tickets.json', $data);
@@ -53,6 +68,20 @@ class Client {
         $ticket->jsonUnserialize($result['ticket']);
 
         return $ticket;
+    }
+    public function listTickets(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/tickets.json', $query);
+
+        foreach ($result['tickets'] as $key => $row) {
+            $ticket = new \Kund24\Api\Models\Ticket();
+            $ticket->jsonUnserialize($row);
+            $result['tickets'][$key] = $ticket;
+        }
+
+        return $result;
     }
     public function createContact(\Kund24\Api\Models\Contact $contact) {
         $data = $this->array_remove_null($contact->jsonSerialize());
@@ -79,6 +108,20 @@ class Client {
 
         return $contact;
     }
+    public function listContacts(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/contacts.json', $query);
+
+        foreach ($result['contacts'] as $key => $row) {
+            $contact = new \Kund24\Api\Models\Contact();
+            $contact->jsonUnserialize($row);
+            $result['contacts'][$key] = $contact;
+        }
+
+        return $result;
+    }
     public function createProject(\Kund24\Api\Models\Project $project) {
         $data = $this->array_remove_null($project->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/projects.json', $data);
@@ -104,6 +147,20 @@ class Client {
 
         return $project;
     }
+    public function listProjects(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/projects.json', $query);
+
+        foreach ($result['projects'] as $key => $row) {
+            $project = new \Kund24\Api\Models\Project();
+            $project->jsonUnserialize($row);
+            $result['projects'][$key] = $project;
+        }
+
+        return $result;
+    }
     public function createProjectTask($projectId, \Kund24\Api\Models\ProjectTask $projectTask) {
         $data = $this->array_remove_null($projectTask->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/projects/'.$projectId.'/tasks.json', $data);
@@ -112,6 +169,20 @@ class Client {
         $projectTask->jsonUnserialize($result['project_task']);
 
         return $projectTask;
+    }
+    public function listProjectTasks(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+
+        $result = $this->makeCurlRequest('GET', '/project_tasks.json', $query);
+
+        foreach ($result['project_tasks'] as $key => $row) {
+            $projectTask = new \Kund24\Api\Models\ProjectTask();
+            $projectTask->jsonUnserialize($row);
+            $result['project_tasks'][$key] = $projectTask;
+        }
+
+        return $result;
     }
     private function array_remove_null($haystack) {
         foreach ($haystack as $key => $value) {
