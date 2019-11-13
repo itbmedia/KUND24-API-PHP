@@ -145,8 +145,8 @@ class Deal implements \JsonSerializable {
 			$this->setContact($contact);
 		}
 		if (array_key_exists("creator", $data)) {
-			$user = new \Kund24\Api\Models\User();
-			$user->jsonUnserialize($data['creator']);
+			$creator = new \Kund24\Api\Models\User();
+			$creator->jsonUnserialize($data['creator']);
 			$this->setCreator($creator);
 		}
 		if (array_key_exists("user", $data)) {
