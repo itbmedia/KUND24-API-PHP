@@ -15,7 +15,25 @@ class Client {
 		$this->apiKey = $apiKey;
 	}
     public function getMe() {
-        return $this->makeCurlRequest('GET', '/me.json');
+        $result = $this->makeCurlRequest('GET', '/me.json');
+        $user = new \Kund24\Api\Models\User();
+        $user->jsonUnserialize($result['user']);
+
+        return $user;
+    }
+    public function listUsers(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/users.json', $query);
+
+        foreach ($result['users'] as $key => $row) {
+            $user = new \Kund24\Api\Models\User();
+            $user->jsonUnserialize($row);
+            $result['users'][$key] = $user;
+        }
+
+        return $result;
     }
     public function addContactsToEmailCampaign($campaignId, $contactIds = array(), $metafields = array()) {
         $data = array("contact_ids" => $contactIds, "metafields" => $metafields);

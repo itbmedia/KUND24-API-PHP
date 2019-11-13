@@ -23,6 +23,10 @@ class Deal implements \JsonSerializable {
 
 	private $currency = 'SEK';
 
+	private $user;
+
+	private $creator;
+
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
 		$this->contact = $contact;
 		return $this;
@@ -86,6 +90,20 @@ class Deal implements \JsonSerializable {
 	public function getCurrency() {
 		return $this->currency;
 	}
+	public function setCreator(\Kund24\Api\Models\User $creator) {
+		$this->creator = $creator;
+		return $this;
+	}
+	public function getCreator() {
+		return $this->creator;
+	}
+	public function setUser(\Kund24\Api\Models\User $user) {
+		$this->user = $user;
+		return $this;
+	}
+	public function getUser() {
+		return $this->user;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -126,6 +144,16 @@ class Deal implements \JsonSerializable {
 			$contact->jsonUnserialize($data['contact']);
 			$this->setContact($contact);
 		}
+		if (array_key_exists("creator", $data)) {
+			$user = new \Kund24\Api\Models\User();
+			$user->jsonUnserialize($data['creator']);
+			$this->setCreator($creator);
+		}
+		if (array_key_exists("user", $data)) {
+			$user = new \Kund24\Api\Models\User();
+			$user->jsonUnserialize($data['user']);
+			$this->setUser($user);
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -139,6 +167,7 @@ class Deal implements \JsonSerializable {
         	"stage" => $this->getStage(),
         	"content" => $this->getContent(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
+        	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         );
     }
 }

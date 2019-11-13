@@ -15,6 +15,10 @@ class ProjectTask implements \JsonSerializable {
 
 	private $project;
 
+	private $user;
+
+	private $creator;
+
 	public function setTitle($title) {
 		$this->title = $title;
 		return $this;
@@ -57,6 +61,20 @@ class ProjectTask implements \JsonSerializable {
 	public function getProject() {
 		return $this->project;
 	}
+	public function setCreator(\Kund24\Api\Models\User $creator) {
+		$this->creator = $creator;
+		return $this;
+	}
+	public function getCreator() {
+		return $this->creator;
+	}
+	public function setUser(\Kund24\Api\Models\User $user) {
+		$this->user = $user;
+		return $this;
+	}
+	public function getUser() {
+		return $this->user;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -88,6 +106,16 @@ class ProjectTask implements \JsonSerializable {
 			$project->jsonUnserialize($data['project']);
 			$this->setProject($project);
 		}
+		if (array_key_exists("creator", $data)) {
+			$user = new \Kund24\Api\Models\User();
+			$user->jsonUnserialize($data['creator']);
+			$this->setCreator($creator);
+		}
+		if (array_key_exists("user", $data)) {
+			$user = new \Kund24\Api\Models\User();
+			$user->jsonUnserialize($data['user']);
+			$this->setUser($user);
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -97,6 +125,7 @@ class ProjectTask implements \JsonSerializable {
         	"reference" => $this->getReference(),
         	"type" => $this->getType(),
         	"status" => $this->getStatus(),
+        	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         );
     }
 }
