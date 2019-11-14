@@ -11,6 +11,8 @@ class Project implements \JsonSerializable {
 
 	private $title;
 
+	private $type = 'standard';
+
 	private $note;
 
 	private $reference;
@@ -37,6 +39,13 @@ class Project implements \JsonSerializable {
 	}
 	public function getTitle() {
 		return $this->title;
+	}
+	public function setType($type) {
+		$this->type = $type;
+		return $this;
+	}
+	public function getType() {
+		return $this->type;
 	}
 	public function setNote($note) {
 		$this->note = $note;
@@ -73,6 +82,9 @@ class Project implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
+		if (array_key_exists("type", $data)) {
+			$this->setTitle($data['type']);
+		}
 		if (array_key_exists("note", $data)) {
 			$this->setNote($data['note']);
 		}
@@ -95,6 +107,7 @@ class Project implements \JsonSerializable {
         return array(
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
+        	"type" => $this->getType(),
         	"note" => $this->getNote(),
         	"field" => $this->getField(),
         	"archived" => $this->getArchived(),
