@@ -21,6 +21,11 @@ class Client {
 
         return $user;
     }
+    public function sendUserNotification($userId, $message, $data = array()) {
+        $result = $this->makeCurlRequest('POST', '/users/'.$userId.'/notifications/send.json', array("content" => $message, "data" => $data));
+
+        return $result;
+    }
     public function listUsers(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
