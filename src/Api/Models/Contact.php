@@ -8,6 +8,8 @@ class Contact implements \JsonSerializable {
 
 	private $email;
 
+	private $bolag;
+
 	private $isCompany = false;
 
 	private $firstName;
@@ -42,6 +44,13 @@ class Contact implements \JsonSerializable {
 	}
 	public function getId() {
 		return $this->id;
+	}
+	public function setBolag(\Kund24\Api\Models\Bolag $bolag) {
+		$this->bolag = $bolag;
+		return $this;
+	}
+	public function getBolag() {
+		return $this->bolag;
 	}
 	public function setIsCompany($isCompany) {
 		$this->isCompany = $isCompany;
@@ -222,6 +231,11 @@ class Contact implements \JsonSerializable {
 				$tags[] = $tag['title'];
 			}
 			$this->setTags($tags);
+		}
+		if (array_key_exists("bolag", $data)) {
+			$bolag = new \Kund24\Api\Models\Bolag();
+			$bolag->jsonUnserialize($data['bolag']);
+			$this->setBolag($bolag);
 		}
 		if (array_key_exists("metafields", $data)) {
 			foreach ($data['metafields'] as $metafieldData) {
