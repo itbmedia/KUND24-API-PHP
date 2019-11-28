@@ -145,6 +145,15 @@ class Client {
 
         return $result;
     }
+    public function createContactAddress($contactId, \Kund24\Api\Models\ContactAddress $contactAddress) {
+        $data = $this->array_remove_null($contactAddress->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/contacts/'.$contactId.'/addresses.json', $data);
+
+        $contact = new \Kund24\Api\Models\Contact();
+        $contact->jsonUnserialize($result['address']);
+
+        return $contact;
+    }
     public function createProject(\Kund24\Api\Models\Project $project) {
         $data = $this->array_remove_null($project->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/projects.json', $data);

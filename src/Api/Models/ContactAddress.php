@@ -2,21 +2,13 @@
 
 namespace Kund24\Api\Models;
 
-class Contact implements \JsonSerializable {
+class ContactAddress implements \JsonSerializable {
 
 	private $id;
 
+	private $title;
+
 	private $email;
-
-	private $bolag;
-
-	private $isCompany = false;
-
-	private $firstName;
-
-	private $lastName;
-
-	private $company;
 
 	private $phone;
 
@@ -30,13 +22,15 @@ class Contact implements \JsonSerializable {
 
 	private $country = 'SE';
 
-	private $reference;
+	private $usePostal = false;
 
-	private $note;
+	private $postalAddress1;
 
-	private $metafields = array();
+	private $postalAddress2;
 
-	private $tags = array();
+	private $postalZip;
+
+	private $postalCity;
 
 	public function setId($id) {
 		$this->id = $id;
@@ -45,19 +39,12 @@ class Contact implements \JsonSerializable {
 	public function getId() {
 		return $this->id;
 	}
-	public function setBolag(\Kund24\Api\Models\Bolag $bolag) {
-		$this->bolag = $bolag;
+	public function setTitle($title) {
+		$this->title = $title;
 		return $this;
 	}
-	public function getBolag() {
-		return $this->bolag;
-	}
-	public function setIsCompany($isCompany) {
-		$this->isCompany = $isCompany;
-		return $this;
-	}
-	public function getIsCompany() {
-		return $this->isCompany;
+	public function getTitle() {
+		return $this->title;
 	}
 	public function setPhone($phone) {
 		$this->phone = $phone;
@@ -72,33 +59,6 @@ class Contact implements \JsonSerializable {
 	}
 	public function getEmail() {
 		return $this->email;
-	}
-	public function setFirstName($firstName) {
-		$this->firstName = $firstName;
-		return $this;
-	}
-	public function getFirstName() {
-		return $this->firstName;
-	}
-	public function setLastName($lastName) {
-		$this->lastName = $lastName;
-		return $this;
-	}
-	public function getLastName() {
-		return $this->lastName;
-	}
-	public function getName() {
-		return trim($this->getFirstName()." ".$this->getLastName());
-	}
-	public function setName($name) {
-		return $this->setFirstName($name);
-	}
-	public function setCompany($company) {
-		$this->company = $company;
-		return $this;
-	}
-	public function getCompany() {
-		return $this->company;
 	}
 	public function setAddress1($address1) {
 		$this->address1 = $address1;
@@ -131,13 +91,6 @@ class Contact implements \JsonSerializable {
 	public function getCity() {
 		return $this->city;
 	}
-	public function setReference($reference) {
-		$this->reference = $reference;
-		return $this;
-	}
-	public function getReference() {
-		return $this->reference;
-	}
 	public function setCountry($country) {
 		if (strlen($country) != 2) {
 			throw new \Exception('Country code must be 2 letters');
@@ -147,34 +100,6 @@ class Contact implements \JsonSerializable {
 	}
 	public function getCountry() {
 		return $this->country;
-	}
-	public function setTags($tags) {
-		$this->tags = $tags;
-		return $this;
-	}
-	public function addTag($tag) {
-		if (!in_array($tag, $this->tags)) {
-			$this->tags[] = $tag;
-		}
-		return $this;
-	}
-	public function getTags() {
-		return $this->tags;
-	}
-	public function addMetafield(\Kund24\Api\Models\ContactMetafield $metafield) {
-		$metafield->setContact($this);
-		$this->metafields[] = $metafield;
-		return $this;
-	}
-	public function getMetafields() {
-		return $this->metafields;
-	}
-	public function setNote($note) {
-		$this->note = $note;
-		return $this;
-	}
-	public function getNote() {
-		return $this->note;
 	}
 	public function setUsePostal($usePostal) {
         $this->usePostal = (($usePostal) ? true:false);
@@ -214,23 +139,11 @@ class Contact implements \JsonSerializable {
 		if (array_key_exists("id", $data)) {
 			$this->setId($data['id']);
 		}
-		if (array_key_exists("is_company", $data)) {
-			$this->setIsCompany($data['is_company']);
-		}
-		if (array_key_exists("name", $data)) {
-			$this->setName($data['name']);
-		}
-		if (array_key_exists("first_name", $data)) {
-			$this->setFirstName($data['first_name']);
-		}
-		if (array_key_exists("last_name", $data)) {
-			$this->setLastName($data['last_name']);
+		if (array_key_exists("title", $data)) {
+			$this->setTitle($data['title']);
 		}
 		if (array_key_exists("email", $data)) {
 			$this->setEmail($data['email']);
-		}
-		if (array_key_exists("company", $data)) {
-			$this->setCompany($data['company']);
 		}
 		if (array_key_exists("country", $data)) {
 			$this->setCountry($data['country']);
@@ -249,34 +162,6 @@ class Contact implements \JsonSerializable {
 		}
 		if (array_key_exists("city", $data)) {
 			$this->setPhone($data['city']);
-		}
-		if (array_key_exists("note", $data)) {
-			$this->setNote($data['note']);
-		}
-		if (array_key_exists("parent", $data)) {
-			$this->setCompany($data['parent']['name']);
-		}
-		if (array_key_exists("reference", $data)) {
-			$this->setReference($data['reference']);
-		}
-		if (array_key_exists("tags", $data)) {
-			$tags = array();
-			foreach ($data['tags'] as $tag) {
-				$tags[] = $tag['title'];
-			}
-			$this->setTags($tags);
-		}
-		if (array_key_exists("bolag", $data)) {
-			$bolag = new \Kund24\Api\Models\Bolag();
-			$bolag->jsonUnserialize($data['bolag']);
-			$this->setBolag($bolag);
-		}
-		if (array_key_exists("metafields", $data)) {
-			foreach ($data['metafields'] as $metafieldData) {
-				$metafield = new \Kund24\Api\Models\ContactMetafield();
-				$metafield->jsonUnserialize($metafieldData);
-				$this->addMetafield($metafield);
-			}
 		}
 		if (array_key_exists("use_postal", $data)) {
 			$this->setUsePostal($data['use_postal']);
@@ -297,11 +182,7 @@ class Contact implements \JsonSerializable {
 	public function jsonSerialize() {
         return array(
         	"id" => $this->getId(),
-        	"is_company" => $this->getIsCompany(),
-        	"first_name" => $this->getFirstName(),
-        	"last_name" => $this->getLastName(),
-        	"name" => $this->getName(),
-        	"company" => $this->getCompany(),
+        	"title" => $this->getTitle(),
         	"email" => $this->getEmail(),
         	"phone" => $this->getPhone(),
         	"address1" => $this->getAddress1(),
@@ -309,10 +190,6 @@ class Contact implements \JsonSerializable {
         	"zip" => $this->getZip(),
         	"city" => $this->getCity(),
         	"country" => $this->getCountry(),
-        	"note" => $this->getNote(),
-        	"reference" => $this->getReference(),
-        	"tags" => $this->getTags(),
-        	"metafields" => array_map(function($metafield) { return $metafield->jsonSerialize(); }, $this->getMetafields()),
         	"use_postal" => $this->getUsePostal(),
         	"postal_address1" => $this->getPostalAddress1(),
         	"postal_address2" => $this->getPostalAddress2(),
