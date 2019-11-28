@@ -164,7 +164,7 @@ class ContactAddress implements \JsonSerializable {
 			$this->setAddress1($data['address1']);
 		}
 		if (array_key_exists("address2", $data)) {
-			$this->setAddress1($data['address2']);
+			$this->setAddress2($data['address2']);
 		}
 		if (array_key_exists("zip", $data)) {
 			$this->setPhone($data['zip']);
