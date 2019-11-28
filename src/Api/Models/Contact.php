@@ -265,10 +265,10 @@ class Contact implements \JsonSerializable {
 			$this->setAddress2($data['address2']);
 		}
 		if (array_key_exists("zip", $data)) {
-			$this->setPhone($data['zip']);
+			$this->setZip($data['zip']);
 		}
 		if (array_key_exists("city", $data)) {
-			$this->setPhone($data['city']);
+			$this->setCity($data['city']);
 		}
 		if (array_key_exists("note", $data)) {
 			$this->setNote($data['note']);
