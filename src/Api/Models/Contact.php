@@ -178,7 +178,7 @@ class Contact implements \JsonSerializable {
 		$this->addresses[] = $address;
 		return $this;
 	}
-	public function getAddress() {
+	public function getAddresses() {
 		return $this->addresses;
 	}
 	public function addMetafield(\Kund24\Api\Models\ContactMetafield $metafield) {
