@@ -38,6 +38,8 @@ class Contact implements \JsonSerializable {
 
 	private $tags = array();
 
+	private $addresses = array();
+
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -161,6 +163,14 @@ class Contact implements \JsonSerializable {
 	public function getTags() {
 		return $this->tags;
 	}
+	public function addAddress(\Kund24\Api\Models\ContactAddress $address) {
+		$address->setContact($this);
+		$this->addresses[] = $address;
+		return $this;
+	}
+	public function getAddress() {
+		return $this->addresses;
+	}
 	public function addMetafield(\Kund24\Api\Models\ContactMetafield $metafield) {
 		$metafield->setContact($this);
 		$this->metafields[] = $metafield;
@@ -266,6 +276,14 @@ class Contact implements \JsonSerializable {
 			}
 			$this->setTags($tags);
 		}
+		if (array_key_exists("addresses", $data)) {
+			$addresses = array();
+			foreach ($data['addresses'] as $adr) {
+				$address = new \Kund24\Api\Models\ContactAddress();
+				$address->jsonUnserialize($adr);
+				$this->addAddress($address);
+			}
+		}
 		if (array_key_exists("bolag", $data)) {
 			$bolag = new \Kund24\Api\Models\Bolag();
 			$bolag->jsonUnserialize($data['bolag']);
@@ -313,6 +331,7 @@ class Contact implements \JsonSerializable {
         	"reference" => $this->getReference(),
         	"tags" => $this->getTags(),
         	"metafields" => array_map(function($metafield) { return $metafield->jsonSerialize(); }, $this->getMetafields()),
+        	"addresses" => array_map(function($address) { return $address->jsonSerialize(); }, $this->getAddresses()),
         	"use_postal" => $this->getUsePostal(),
         	"postal_address1" => $this->getPostalAddress1(),
         	"postal_address2" => $this->getPostalAddress2(),

@@ -32,12 +32,21 @@ class ContactAddress implements \JsonSerializable {
 
 	private $postalCity;
 
+	private $contact;
+
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
 	public function getId() {
 		return $this->id;
+	}
+	public function setContact($contact) {
+		$this->contact = $contact;
+		return $this;
+	}
+	public function getContact() {
+		return $this->contact;
 	}
 	public function setTitle($title) {
 		$this->title = $title;
