@@ -164,7 +164,7 @@ class Contact implements \JsonSerializable {
 		$this->tags = $tags;
 		return $this;
 	}
-	public function addTag($tag) {
+	public function addTag($tag) { 
 		if (!in_array($tag, $this->tags)) {
 			$this->tags[] = $tag;
 		}
