@@ -15,6 +15,8 @@ class User implements \JsonSerializable {
 
 	private $avatar;
 
+	private $group;
+
 	private $roles = array();
 
 	public function setName($name) {
@@ -59,6 +61,13 @@ class User implements \JsonSerializable {
 	public function getRoles() {
 		return $this->roles;
 	}
+	public function setGroup(\Kund24\Api\Models\UserGroup $group) {
+		$this->group = $group;
+		return $this;
+	}
+	public function getGroup() {
+		return $this->group;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -75,6 +84,11 @@ class User implements \JsonSerializable {
 		}
 		if (array_key_exists("email", $data)) {
 			$this->setEmail($data['email']);
+		}
+		if (array_key_exists("group", $data)) {
+			$group = new \Kund24\Api\Models\UserGroup();
+			$group->jsonUnserialize($data['group']);
+			$this->setGroup($group);
 		}
 		if (array_key_exists("fullname", $data)) {
 			$this->setFullname($data['fullname']);
@@ -95,6 +109,7 @@ class User implements \JsonSerializable {
         	"name" => $this->getName(),
         	"email" => $this->getEmail(),
         	"phone" => $this->getPhone(),
+        	"group" => (($this->getGroup()) ? $this->getGroup()->jsonSerialize():null),
         );
     }
 }
