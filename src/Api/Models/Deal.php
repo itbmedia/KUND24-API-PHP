@@ -41,6 +41,20 @@ class Deal implements \JsonSerializable {
 	public function getValue() {
 		return $this->value;
 	}
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
+		return $this;
+	}
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
+		return $this;
+	}
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
 	public function setTitle($title) {
 		$this->title = $title;
 		return $this;
@@ -121,6 +135,12 @@ class Deal implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
+		if (array_key_exists("created_at", $data)) {
+			$this->setCreatedAt($data['created_at']);
+		}
+		if (array_key_exists("updated_at", $data)) {
+			$this->setUpdatedAt($data['updated_at']);
+		}
 		if (array_key_exists("currency", $data)) {
 			$this->setCurrency($data['currency']);
 		}
@@ -165,6 +185,8 @@ class Deal implements \JsonSerializable {
         	"source" => $this->getSource(),
         	"reference" => $this->getReference(),
         	"stage" => $this->getStage(),
+        	"created_at" => $this->getCreatedAt(),
+        	"updated_at" => $this->getUpdatedAt(),
         	"content" => $this->getContent(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
