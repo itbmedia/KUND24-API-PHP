@@ -21,8 +21,13 @@ class Client {
 
         return $user;
     }
-    public function sendUserNotification($userId, $message, $data = array()) {
-        $result = $this->makeCurlRequest('POST', '/users/'.$userId.'/notifications/send.json', array("content" => $message, "data" => $data));
+    public function sendRoleNotification($resource, $resourceId, $role, $message) {
+        $result = $this->makeCurlRequest('POST', '/notifications/'.$resource.'/'.$resourceId.'/roles/'.$role.'.json', array("content" => $message));
+
+        return $result;
+    }
+    public function sendUserNotification($resource, $resourceId, $userId, $message) {
+        $result = $this->makeCurlRequest('POST', '/notifications/'.$resource.'/'.$resourceId.'/users/'.$userId.'.json', array("content" => $message));
 
         return $result;
     }
