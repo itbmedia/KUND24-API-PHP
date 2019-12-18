@@ -17,6 +17,12 @@ class ProjectTask implements \JsonSerializable {
 
 	private $user;
 
+	private $taskAt;
+
+	private $taskEndAt;
+
+	private $estimatedMinutes;
+
 	private $creator;
 
 	public function setTitle($title) {
@@ -75,6 +81,27 @@ class ProjectTask implements \JsonSerializable {
 	public function getUser() {
 		return $this->user;
 	}
+	public function setTaskAt($taskAt) {
+		$this->taskAt = $taskAt;
+		return $this;
+	}
+	public function getTaskAt() {
+		return $this->taskAt;
+	}
+	public function setTaskEndAt($taskEndAt) {
+		$this->taskEndAt = $taskEndAt;
+		return $this;
+	}
+	public function getTaskEndAt() {
+		return $this->taskEndAt;
+	}
+	public function setEstimatedMinutes($estimatedMinutes) {
+		$this->estimatedMinutes = $estimatedMinutes;
+		return $this;
+	}
+	public function getEstimatedMinutes() {
+		return $this->estimatedMinutes;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -101,6 +128,15 @@ class ProjectTask implements \JsonSerializable {
 		if (array_key_exists("type", $data)) {
 			$this->setType($data['type']);
 		}
+		if (array_key_exists("estimated_minutes", $data)) {
+			$this->setEstimatedMinutes($data['estimated_minutes']);
+		}
+		if (array_key_exists("task_at", $data)) {
+			$this->setTaskAt($data['task_at']);
+		}
+		if (array_key_exists("task_end_at", $data)) {
+			$this->setTaskEndAt($data['task_end_at']);
+		}
 		if (array_key_exists("project", $data)) {
 			$project = new \Kund24\Api\Models\Project();
 			$project->jsonUnserialize($data['project']);
@@ -125,6 +161,9 @@ class ProjectTask implements \JsonSerializable {
         	"reference" => $this->getReference(),
         	"type" => $this->getType(),
         	"status" => $this->getStatus(),
+        	"estimated_minutes" => $this->getEstimatedMinutes(),
+        	"task_at" => $this->getTaskAt(),
+        	"task_end_at" => $this->getTaskEndAt(),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         );
     }
