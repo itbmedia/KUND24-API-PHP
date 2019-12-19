@@ -221,6 +221,29 @@ class Client {
 
         return $result;
     }
+    public function createProjectTaskLog($projectTaskId, \Kund24\Api\Models\ProjectTaskLog $projectTaskLog) {
+        $data = $this->array_remove_null($projectTaskLog->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/project_tasks/'.$projectTaskId.'/logs.json', $data);
+
+        $projectTaskLog = new \Kund24\Api\Models\ProjectTaskLog();
+        $projectTaskLog->jsonUnserialize($result['project_task_log']);
+
+        return $projectTaskLog;
+    }
+    public function listProjectTaskLogs(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+
+        $result = $this->makeCurlRequest('GET', '/project_task_logs.json', $query);
+
+        foreach ($result['project_task_logs'] as $key => $row) {
+            $projectTaskLog = new \Kund24\Api\Models\ProjectTaskLog();
+            $projectTaskLog->jsonUnserialize($row);
+            $result['project_task_logs'][$key] = $projectTaskLog;
+        }
+
+        return $result;
+    }
     private function array_remove_null($haystack) {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
