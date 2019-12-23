@@ -221,6 +221,11 @@ class Client {
 
         return $result;
     }
+    public function listProjectTaskIds(Array $query) {
+        $result = $this->makeCurlRequest('GET', '/project_tasks/ids.json', $query);
+
+        return $result;
+    }
     public function createProjectTaskLog($projectTaskId, \Kund24\Api\Models\ProjectTaskLog $projectTaskLog) {
         $data = $this->array_remove_null($projectTaskLog->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/project_tasks/'.$projectTaskId.'/logs.json', $data);
