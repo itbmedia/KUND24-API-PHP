@@ -15,6 +15,12 @@ class Task implements \JsonSerializable {
 
 	private $creator;
 
+	private $taskAt;
+
+	private $taskEndAt;
+
+	private $projectTask;
+
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
 		$this->contact = $contact;
 		return $this;
@@ -36,6 +42,20 @@ class Task implements \JsonSerializable {
 	public function getContent() {
 		return $this->content;
 	}
+	public function setTaskAt($taskAt) {
+		$this->taskAt = $taskAt;
+		return $this;
+	}
+	public function getTaskAt() {
+		return $this->taskAt;
+	}
+	public function setTaskEndAt($taskEndAt) {
+		$this->taskEndAt = $taskEndAt;
+		return $this;
+	}
+	public function getTaskEndAt() {
+		return $this->taskEndAt;
+	}
 	public function setCreator(\Kund24\Api\Models\User $creator) {
 		$this->creator = $creator;
 		return $this;
@@ -49,6 +69,13 @@ class Task implements \JsonSerializable {
 	}
 	public function getUser() {
 		return $this->user;
+	}
+	public function setProjectTask(\Kund24\Api\Models\ProjectTask $projectTask) {
+		$this->projectTask = $projectTask;
+		return $this;
+	}
+	public function getProjectTask() {
+		return $this->projectTask;
 	}
 	public function setId($id) {
 		$this->id = $id;
@@ -67,6 +94,12 @@ class Task implements \JsonSerializable {
 		if (array_key_exists("content", $data)) {
 			$this->setContent($data['content']);
 		}
+		if (array_key_exists("task_at", $data)) {
+			$this->setTaskAt($data['task_at']);
+		}
+		if (array_key_exists("task_end_at", $data)) {
+			$this->setTaskEndAt($data['task_end_at']);
+		}
 		if (array_key_exists("contact", $data)) {
 			$contact = new \Kund24\Api\Models\Contact();
 			$contact->jsonUnserialize($data['contact']);
@@ -76,6 +109,11 @@ class Task implements \JsonSerializable {
 			$creator = new \Kund24\Api\Models\User();
 			$creator->jsonUnserialize($data['creator']);
 			$this->setCreator($creator);
+		}
+		if (array_key_exists("project_task", $data)) {
+			$projectTask = new \Kund24\Api\Models\ProjectTask();
+			$projectTask->jsonUnserialize($data['project_task']);
+			$this->setProjectTask($projectTask);
 		}
 		if (array_key_exists("user", $data)) {
 			$user = new \Kund24\Api\Models\User();
@@ -88,6 +126,9 @@ class Task implements \JsonSerializable {
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
         	"content" => $this->getContent(),
+        	"task_at" => $this->getTaskAt(),
+        	"task_end_at" => $this->getTaskEndAt(),
+        	"project_task" => (($this->getProjectTask()) ? $this->getProjectTask()->jsonSerialize():null),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         );
