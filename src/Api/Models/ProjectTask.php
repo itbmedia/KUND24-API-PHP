@@ -117,7 +117,7 @@ class ProjectTask implements \JsonSerializable {
 			$this->setTitle($data['title']);
 		}
 		if (array_key_exists("content", $data)) {
-			$this->setTitle($data['content']);
+			$this->setContent($data['content']);
 		}
 		if (array_key_exists("reference", $data)) {
 			$this->setReference($data['reference']);
