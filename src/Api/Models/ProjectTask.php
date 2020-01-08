@@ -17,6 +17,8 @@ class ProjectTask implements \JsonSerializable {
 
 	private $user;
 
+	private $logs = array();
+
 	private $taskAt;
 
 	private $taskEndAt;
@@ -59,6 +61,10 @@ class ProjectTask implements \JsonSerializable {
 	}
 	public function getReference() {
 		return $this->reference;
+	}
+	public function addLog(\Kund24\Api\Models\ProjectTaskLog $taskLog) {
+		$this->logs[] = $taskLog;
+		return $this;
 	}
 	public function setProject(\Kund24\Api\Models\Project $project) {
 		$this->project = $project;
@@ -151,6 +157,13 @@ class ProjectTask implements \JsonSerializable {
 			$user = new \Kund24\Api\Models\User();
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);
+		}
+		if (array_key_exists("logs", $data)) {
+			foreach ($data['logs'] as $log) {
+				$taskLog = new \Kund24\Api\Models\ProjectTaskLog();
+				$taskLog->jsonUnserialize($log);
+				$this->addLog($taskLog);
+			}
 		}
 	}
 	public function jsonSerialize() {
