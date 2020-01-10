@@ -249,6 +249,34 @@ class Client {
 
         return $result;
     }
+    public function listBlogs(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+
+        $result = $this->makeCurlRequest('GET', '/blogs.json', $query);
+
+        foreach ($result['blogs'] as $key => $row) {
+            $blog = new \Kund24\Api\Models\Blog();
+            $blog->jsonUnserialize($row);
+            $result['blogs'][$key] = $blog;
+        }
+
+        return $result;
+    }
+    public function listPosts(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+
+        $result = $this->makeCurlRequest('GET', '/posts.json', $query);
+
+        foreach ($result['posts'] as $key => $row) {
+            $post = new \Kund24\Api\Models\Post();
+            $post->jsonUnserialize($row);
+            $result['posts'][$key] = $post;
+        }
+
+        return $result;
+    }
     private function array_remove_null($haystack) {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
