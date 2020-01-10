@@ -277,6 +277,31 @@ class Client {
 
         return $result;
     }
+    public function createPost(\Kund24\Api\Models\Post $post) {
+        $data = $this->array_remove_null($post->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/posts.json', $data);
+
+        $post = new \Kund24\Api\Models\Post();
+        $post->jsonUnserialize($result['post']);
+
+        return $post;
+    }
+    public function updatePost(\Kund24\Api\Models\Post $post) {
+        $data = $this->array_remove_null($post->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/posts/'.$post->getId().'.json', $data);
+
+        $post = new \Kund24\Api\Models\Post();
+        $post->jsonUnserialize($result['post']);
+
+        return $post;
+    }
+    public function getPost($id) {
+        $result = $this->makeCurlRequest('GET', '/posts/'.$id.'.json');
+        $post = new \Kund24\Api\Models\Post();
+        $post->jsonUnserialize($result['post']);
+
+        return $post;
+    }
     private function array_remove_null($haystack) {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
