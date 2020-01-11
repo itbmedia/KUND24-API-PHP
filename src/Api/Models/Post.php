@@ -13,6 +13,8 @@ class Post implements \JsonSerializable {
 
 	private $content;
 
+	private $commentCount = 0;
+
 	private $socialMediaContent;
 
 	private $url;
@@ -51,6 +53,13 @@ class Post implements \JsonSerializable {
 	}
 	public function getTitle() {
 		return $this->title;
+	}
+	public function setCommentCount($commentCount) {
+		$this->commentCount = $commentCount;
+		return $this;
+	}
+	public function getCommentCount() {
+		return $this->commentCount;
 	}
 	public function setHandle($handle) {
 		$this->handle = $handle;
@@ -140,6 +149,9 @@ class Post implements \JsonSerializable {
 		}
 		if (array_key_exists("content", $data)) {
 			$this->setContent($data['content']);
+		}
+		if (array_key_exists("comment_count", $data)) {
+			$this->setCommentCount($data['comment_count']);
 		}
 		if (array_key_exists("social_media_content", $data)) {
 			$this->setSocialMediaContent($data['social_media_content']);
