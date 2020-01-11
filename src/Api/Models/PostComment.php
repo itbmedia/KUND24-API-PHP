@@ -11,6 +11,8 @@ class PostComment implements \JsonSerializable {
 
 	private $email;
 
+	private $avatar;
+
 	private $ip;
 
 	private $publishedAt;
@@ -35,6 +37,13 @@ class PostComment implements \JsonSerializable {
 	}
 	public function getEmail() {
 		return $this->email;
+	}
+	public function setAvatar($avatar) {
+		$this->avatar = $avatar;
+		return $this;
+	}
+	public function getAvatar() {
+		return $this->avatar;
 	}
 	public function setIp($ip) {
 		$this->ip = $ip;
@@ -70,6 +79,9 @@ class PostComment implements \JsonSerializable {
 		if (array_key_exists("email", $data)) {
 			$this->setEmail($data['email']);
 		}
+		if (array_key_exists("avatar", $data)) {
+			$this->setAvatar($data['avatar']);
+		}
 		if (array_key_exists("ip", $data)) {
 			$this->setIp($data['ip']);
 		}
@@ -82,6 +94,7 @@ class PostComment implements \JsonSerializable {
         	"id" => $this->getId(),
         	"content" => $this->getContent(),
         	"name" => $this->getName(),
+        	"avatar" => $this->getAvatar(),
         	"email" => $this->getEmail(),
         	"ip" => $this->getIp(),
         	"published_at" => $this->getPublishedAt(),
