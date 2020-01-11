@@ -17,6 +17,10 @@ class Post implements \JsonSerializable {
 
 	private $publishAt;
 
+	private $synced;
+
+	private $published;
+
 	private $blog;
 
 	private $user;
@@ -72,6 +76,20 @@ class Post implements \JsonSerializable {
 	public function getUrl() {
 		return $this->url;
 	}
+	public function setSynced($synced) {
+		$this->synced = $synced;
+		return $this;
+	}
+	public function getSynced() {
+		return $this->synced;
+	}
+	public function setPublished($published) {
+		$this->published = $published;
+		return $this;
+	}
+	public function getPublished() {
+		return $this->published;
+	}
 	public function setPublishAt($publishAt) {
 		$this->publishAt = $publishAt;
 		return $this;
@@ -107,6 +125,12 @@ class Post implements \JsonSerializable {
 		}
 		if (array_key_exists("url", $data)) {
 			$this->setUrl($data['url']);
+		}
+		if (array_key_exists("synced", $data)) {
+			$this->setSynced($data['synced']);
+		}
+		if (array_key_exists("published", $data)) {
+			$this->setPublished($data['published']);
 		}
 		if (array_key_exists("blog", $data)) {
 			$blog = new \Kund24\Api\Models\Blog();
