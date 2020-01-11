@@ -167,7 +167,12 @@ class Post implements \JsonSerializable {
 		if (array_key_exists("tags", $data)) {
 			$tags = array();
 			foreach ($data['tags'] as $tag) {
-				$tags[] = $tag['title'];
+				if (is_string($tag)) {
+					$tags[] = $tag;
+				}
+				ELSE {
+					$tags[] = $tag['title'];
+				}
 			}
 			$this->setTags($tags);
 		}
