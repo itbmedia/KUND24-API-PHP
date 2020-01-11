@@ -15,7 +15,9 @@
     "require": {
         "php": ">=5.5",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "html2text/html2text": ">=4.2",
     },
     "autoload": {
         "psr-4": {"Kund24\\": "src/"}

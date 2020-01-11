@@ -82,6 +82,17 @@ class Post implements \JsonSerializable {
 	public function getContent() {
 		return $this->content;
 	}
+	public function getTextContent() {
+        $html = new \Html2Text\Html2Text($this->getContent());
+        return $html->getText();
+    }
+    public function getExcerpt($maxLength = 200) {
+    	$content = $this->getTextContent();
+    	if (mb_strlen($content) > $maxLength) {
+    		return mb_substr($content, 0, $maxLength-3).'...';
+    	}
+    	return $content;
+    }
 	public function setSocialMediaContent($socialMediaContent) {
 		$this->socialMediaContent = $socialMediaContent;
 		return $this;
