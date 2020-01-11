@@ -4,11 +4,11 @@ namespace Kund24\Api;
 
 class Client {
 
-	private $apiKey;
+	protected $apiKey;
 
-    private $accountId;
+    protected $accountId;
 
-	private $baseUrl = 'https://www.kund24.se/api';
+	protected $baseUrl = 'https://www.kund24.se/api';
 
 	public function __construct($accountId, $apiKey) {
         $this->accountId = $accountId;
@@ -302,7 +302,7 @@ class Client {
 
         return $post;
     }
-    private function array_remove_null($haystack) {
+    protected function array_remove_null($haystack) {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
                 $haystack[$key] = $this->array_remove_null($haystack[$key]);
@@ -315,7 +315,7 @@ class Client {
 
         return $haystack;
     }
-	private function makeCurlRequest($method, $path, $data = array()) {
+	protected function makeCurlRequest($method, $path, $data = array()) {
         $method = strtoupper($method);
 
         $url = $this->baseUrl.$path;

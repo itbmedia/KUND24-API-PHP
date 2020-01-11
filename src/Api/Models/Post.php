@@ -9,6 +9,8 @@ class Post implements \JsonSerializable {
 
 	private $handle;
 
+	private $category;
+
 	private $content;
 
 	private $socialMediaContent;
@@ -24,6 +26,8 @@ class Post implements \JsonSerializable {
 	private $blog;
 
 	private $user;
+
+	private $tags = array();
 
 	public function setUser(\Kund24\Api\Models\User $user) {
 		$this->user = $user;
@@ -54,6 +58,13 @@ class Post implements \JsonSerializable {
 	}
 	public function getHandle() {
 		return $this->handle;
+	}
+	public function setCategory($category) {
+		$this->category = $category;
+		return $this;
+	}
+	public function getCategory() {
+		return $this->category;
 	}
 	public function setContent($content) {
 		$this->content = $content;
@@ -97,6 +108,19 @@ class Post implements \JsonSerializable {
 	public function getPublishAt() {
 		return $this->publishAt;
 	}
+	public function setTags($tags) {
+		$this->tags = $tags;
+		return $this;
+	}
+	public function addTag($tag) { 
+		if (!in_array($tag, $this->tags)) {
+			$this->tags[] = $tag;
+		}
+		return $this;
+	}
+	public function getTags() {
+		return $this->tags;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -132,6 +156,21 @@ class Post implements \JsonSerializable {
 		if (array_key_exists("published", $data)) {
 			$this->setPublished($data['published']);
 		}
+		if (array_key_exists("category", $data)) {
+			if ($data['category']) {
+				$this->setCategory($data['category']['title']);
+			}
+			ELSE {
+				$this->setCategory(null);
+			}
+		}
+		if (array_key_exists("tags", $data)) {
+			$tags = array();
+			foreach ($data['tags'] as $tag) {
+				$tags[] = $tag['title'];
+			}
+			$this->setTags($tags);
+		}
 		if (array_key_exists("blog", $data)) {
 			$blog = new \Kund24\Api\Models\Blog();
 			$blog->jsonUnserialize($data['blog']);
@@ -151,6 +190,7 @@ class Post implements \JsonSerializable {
         	"content" => $this->getContent(),
         	"social_media_content" => $this->getSocialMediaContent(),
         	"publish_at" => $this->getPublishAt(),
+        	"tags" => $this->getTags(),
         	"url" => $this->getUrl(),
         	"blog" => (($this->getBlog()) ? $this->getBlog()->jsonSerialize():null),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
