@@ -7,7 +7,7 @@ class BlogClient extends Client {
 
     public function getBlogPosts($blogId, $params = array("offset" => 0, "limit" => 10)) {
         /*
-            @Params offset, limit, author, tagged, category, month
+            @Params offset, limit, author, user_id, tagged, category, month (Y-m)
         */
         $result = $this->makeCurlRequest('GET', '/blogs/'.$blogId.'/posts.json', $params);
 
@@ -20,7 +20,7 @@ class BlogClient extends Client {
         return $result;
     }
     public function getBlogPost($blogId, $postId, $offset = 0, $limit = 10) {
-        $result = $this->makeCurlRequest('GET', '/blogs/'.$blogId.'/posts/'.$postId.'.json', $params);
+        $result = $this->makeCurlRequest('GET', '/blogs/'.$blogId.'/posts/'.$postId.'.json', array("offset" => $offset, "limit" => $limit));
 
         $post = new \Kund24\Api\Models\Post();
         $post->jsonUnserialize($result['post']);
