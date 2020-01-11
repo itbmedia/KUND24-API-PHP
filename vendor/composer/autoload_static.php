@@ -11,12 +11,21 @@ class ComposerStaticInitc819bec24f2c62a666e8f7ca521546d1
         array (
             'Kund24\\' => 7,
         ),
+        'H' => 
+        array (
+            'Html2Text\\' => 10,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Kund24\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Html2Text\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/html2text/html2text/src',
+            1 => __DIR__ . '/..' . '/html2text/html2text/test',
         ),
     );
 

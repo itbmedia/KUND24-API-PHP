@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Kund24\\' => array($baseDir . '/src'),
+    'Html2Text\\' => array($vendorDir . '/html2text/html2text/src', $vendorDir . '/html2text/html2text/test'),
 );
