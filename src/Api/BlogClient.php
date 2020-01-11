@@ -5,7 +5,7 @@ use \Kund24\Api\Client;
 
 class BlogClient extends Client {
 
-    public function getPosts($blogId, $params = array("offset" => 0, "limit" => 10)) {
+    public function getBlogPosts($blogId, $params = array("offset" => 0, "limit" => 10)) {
         /*
             @Params offset, limit, author, tagged, category, month
         */
@@ -19,7 +19,7 @@ class BlogClient extends Client {
 
         return $result;
     }
-    public function getPost($blogId, $postId, $offset = 0, $limit = 10) {
+    public function getBlogPost($blogId, $postId, $offset = 0, $limit = 10) {
         $result = $this->makeCurlRequest('GET', '/blogs/'.$blogId.'/posts/'.$postId.'.json', $params);
 
         $post = new \Kund24\Api\Models\Post();
