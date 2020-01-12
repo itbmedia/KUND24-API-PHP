@@ -182,10 +182,10 @@ class Post implements \JsonSerializable {
 			$this->setContent($data['content']);
 		}
 		if (array_key_exists("image", $data)) {
-			$this->setUrl($data['image']);
+			$this->setImage($data['image']);
 		}
 		if (array_key_exists("thumbnail", $data)) {
-			$this->setUrl($data['thumbnail']);
+			$this->setThumbnail($data['thumbnail']);
 		}
 		if (array_key_exists("comment_count", $data)) {
 			$this->setCommentCount($data['comment_count']);
