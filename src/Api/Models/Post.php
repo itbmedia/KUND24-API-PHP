@@ -27,6 +27,8 @@ class Post implements \JsonSerializable {
 
 	private $synced;
 
+	private $removed;
+
 	private $published;
 
 	private $blog;
@@ -141,6 +143,13 @@ class Post implements \JsonSerializable {
 	public function getPublished() {
 		return $this->published;
 	}
+	public function setRemoved($removed) {
+		$this->removed = $removed;
+		return $this;
+	}
+	public function getRemoved() {
+		return $this->removed;
+	}
 	public function setPublishAt($publishAt) {
 		$this->publishAt = $publishAt;
 		return $this;
@@ -201,6 +210,9 @@ class Post implements \JsonSerializable {
 		}
 		if (array_key_exists("synced", $data)) {
 			$this->setSynced($data['synced']);
+		}
+		if (array_key_exists("removed", $data)) {
+			$this->setRemoved($data['removed']);
 		}
 		if (array_key_exists("published", $data)) {
 			$this->setPublished($data['published']);
