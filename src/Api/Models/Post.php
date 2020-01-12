@@ -13,6 +13,10 @@ class Post implements \JsonSerializable {
 
 	private $content;
 
+	private $image;
+
+	private $thumbnail;
+
 	private $commentCount = 0;
 
 	private $socialMediaContent;
@@ -53,6 +57,22 @@ class Post implements \JsonSerializable {
 	}
 	public function getTitle() {
 		return $this->title;
+	}
+
+	public function setImage($image) {
+		$this->image = $image;
+		return $this;
+	}
+	public function getImage() {
+		return $this->image;
+	}
+
+	public function setThumbnail($thumbnail) {
+		$this->thumbnail = $thumbnail;
+		return $this;
+	}
+	public function getThumbnail() {
+		return $this->thumbnail;
 	}
 	public function setCommentCount($commentCount) {
 		$this->commentCount = $commentCount;
@@ -161,6 +181,12 @@ class Post implements \JsonSerializable {
 		if (array_key_exists("content", $data)) {
 			$this->setContent($data['content']);
 		}
+		if (array_key_exists("image", $data)) {
+			$this->setUrl($data['image']);
+		}
+		if (array_key_exists("thumbnail", $data)) {
+			$this->setUrl($data['thumbnail']);
+		}
 		if (array_key_exists("comment_count", $data)) {
 			$this->setCommentCount($data['comment_count']);
 		}
@@ -216,6 +242,8 @@ class Post implements \JsonSerializable {
         	"title" => $this->getTitle(),
         	"handle" => $this->getHandle(),
         	"content" => $this->getContent(),
+        	"image" => $this->getImage(),
+        	"thumbnail" => $this->getThumbnail(),
         	"social_media_content" => $this->getSocialMediaContent(),
         	"publish_at" => $this->getPublishAt(),
         	"tags" => $this->getTags(),
