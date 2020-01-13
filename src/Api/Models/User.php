@@ -85,7 +85,7 @@ class User implements \JsonSerializable {
 		if (array_key_exists("email", $data)) {
 			$this->setEmail($data['email']);
 		}
-		if (array_key_exists("group", $data)) {
+		if ((array_key_exists("group", $data)) && ($data['group'])) {
 			$group = new \Kund24\Api\Models\UserGroup();
 			$group->jsonUnserialize($data['group']);
 			$this->setGroup($group);
