@@ -61,7 +61,7 @@ class ProjectTaskLog implements \JsonSerializable {
 		if (array_key_exists("comment", $data)) {
 			$this->setComment($data['comment']);
 		}
-		if (array_key_exists("user", $data)) {
+		if ((array_key_exists("user", $data)) && ($data['user'])) {
 			$user = new \Kund24\Api\Models\User();
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);

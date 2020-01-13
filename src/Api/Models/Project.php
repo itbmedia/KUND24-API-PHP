@@ -94,7 +94,7 @@ class Project implements \JsonSerializable {
 		if (array_key_exists("archived", $data)) {
 			$this->setArchived($data['archived']);
 		}
-		if (array_key_exists("contact", $data)) {
+		if ((array_key_exists("contact", $data)) && ($data['contact'])) {
 			$contact = new \Kund24\Api\Models\Contact();
 			$contact->jsonUnserialize($data['contact']);
 			$this->setContact($contact);

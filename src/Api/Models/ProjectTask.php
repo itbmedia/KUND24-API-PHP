@@ -143,22 +143,22 @@ class ProjectTask implements \JsonSerializable {
 		if (array_key_exists("task_end_at", $data)) {
 			$this->setTaskEndAt($data['task_end_at']);
 		}
-		if (array_key_exists("project", $data)) {
+		if ((array_key_exists("project", $data)) && ($data['project'])) {
 			$project = new \Kund24\Api\Models\Project();
 			$project->jsonUnserialize($data['project']);
 			$this->setProject($project);
 		}
-		if (array_key_exists("creator", $data)) {
+		if ((array_key_exists("creator", $data)) && ($data['creator'])) {
 			$creator = new \Kund24\Api\Models\User();
 			$creator->jsonUnserialize($data['creator']);
 			$this->setCreator($creator);
 		}
-		if (array_key_exists("user", $data)) {
+		if ((array_key_exists("user", $data)) && ($data['user'])) {
 			$user = new \Kund24\Api\Models\User();
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);
 		}
-		if (array_key_exists("logs", $data)) {
+		if ((array_key_exists("logs", $data)) && ($data['logs'])) {
 			foreach ($data['logs'] as $log) {
 				$taskLog = new \Kund24\Api\Models\ProjectTaskLog();
 				$taskLog->jsonUnserialize($log);

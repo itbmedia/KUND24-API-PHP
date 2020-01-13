@@ -66,7 +66,7 @@ class TicketEvent implements \JsonSerializable {
 		if (array_key_exists("internal", $data)) {
 			$this->setInternal($data['internal']);
 		}
-		if (array_key_exists("contact", $data)) {
+		if ((array_key_exists("contact", $data)) && ($data['contact'])) {
 			$contact = new \Kund24\Api\Models\Contact();
 			$contact->jsonUnserialize($data['contact']);
 			$this->setContact($contact);

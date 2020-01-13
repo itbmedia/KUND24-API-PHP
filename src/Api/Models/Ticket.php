@@ -101,17 +101,17 @@ class Ticket implements \JsonSerializable {
 		if (array_key_exists("channel", $data)) {
 			$this->setChannel($data['channel']);
 		}
-		if (array_key_exists("contact", $data)) {
+		if ((array_key_exists("contact", $data)) && ($data['contact'])) {
 			$contact = new \Kund24\Api\Models\Contact();
 			$contact->jsonUnserialize($data['contact']);
 			$this->setContact($contact);
 		}
-		if (array_key_exists("project", $data)) {
+		if ((array_key_exists("project", $data)) && ($data['project'])) {
 			$project = new \Kund24\Api\Models\Project();
 			$project->jsonUnserialize($data['project']);
 			$this->setProject($project);
 		}
-		if (array_key_exists("events", $data)) {
+		if ((array_key_exists("events", $data)) && ($data['events'])) {
 			foreach ($data['events'] as $eventData) {
 				$event = new \Kund24\Api\Models\TicketEvent();
 				$event->jsonUnserialize($eventData);

@@ -217,15 +217,10 @@ class Post implements \JsonSerializable {
 		if (array_key_exists("published", $data)) {
 			$this->setPublished($data['published']);
 		}
-		if (array_key_exists("category", $data)) {
-			if ($data['category']) {
-				$this->setCategory($data['category']['title']);
-			}
-			ELSE {
-				$this->setCategory(null);
-			}
+		if ((array_key_exists("category", $data)) && ($data['category'])) {
+			$this->setCategory($data['category']['title']);
 		}
-		if (array_key_exists("tags", $data)) {
+		if ((array_key_exists("tags", $data)) && ($data['tags'])) {
 			$tags = array();
 			foreach ($data['tags'] as $tag) {
 				if (is_string($tag)) {
@@ -237,12 +232,12 @@ class Post implements \JsonSerializable {
 			}
 			$this->setTags($tags);
 		}
-		if (array_key_exists("blog", $data)) {
+		if ((array_key_exists("blog", $data)) && ($data['blog'])) {
 			$blog = new \Kund24\Api\Models\Blog();
 			$blog->jsonUnserialize($data['blog']);
 			$this->setBlog($blog);
 		}
-		if (array_key_exists("user", $data)) {
+		if ((array_key_exists("user", $data)) && ($data['user'])) {
 			$user = new \Kund24\Api\Models\User();
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);

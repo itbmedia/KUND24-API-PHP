@@ -279,7 +279,7 @@ class Contact implements \JsonSerializable {
 		if (array_key_exists("reference", $data)) {
 			$this->setReference($data['reference']);
 		}
-		if (array_key_exists("tags", $data)) {
+		if ((array_key_exists("tags", $data)) && ($data['tags'])) {
 			$tags = array();
 			foreach ($data['tags'] as $tag) {
 				if (is_string($tag)) {
@@ -291,7 +291,7 @@ class Contact implements \JsonSerializable {
 			}
 			$this->setTags($tags);
 		}
-		if (array_key_exists("addresses", $data)) {
+		if ((array_key_exists("addresses", $data)) && ($data['addresses'])) {
 			$addresses = array();
 			foreach ($data['addresses'] as $adr) {
 				$address = new \Kund24\Api\Models\ContactAddress();
@@ -299,12 +299,12 @@ class Contact implements \JsonSerializable {
 				$this->addAddress($address);
 			}
 		}
-		if (array_key_exists("bolag", $data)) {
+		if ((array_key_exists("bolag", $data)) && ($data['bolag'])) {
 			$bolag = new \Kund24\Api\Models\Bolag();
 			$bolag->jsonUnserialize($data['bolag']);
 			$this->setBolag($bolag);
 		}
-		if (array_key_exists("metafields", $data)) {
+		if ((array_key_exists("metafields", $data)) && ($data['metafields'])) {
 			foreach ($data['metafields'] as $metafieldData) {
 				$metafield = new \Kund24\Api\Models\ContactMetafield();
 				$metafield->jsonUnserialize($metafieldData);

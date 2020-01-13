@@ -159,17 +159,17 @@ class Deal implements \JsonSerializable {
 		if (array_key_exists("content", $data)) {
 			$this->setContent($data['content']);
 		}
-		if (array_key_exists("contact", $data)) {
+		if ((array_key_exists("contact", $data)) && ($data['contact'])) {
 			$contact = new \Kund24\Api\Models\Contact();
 			$contact->jsonUnserialize($data['contact']);
 			$this->setContact($contact);
 		}
-		if (array_key_exists("creator", $data)) {
+		if ((array_key_exists("creator", $data)) && ($data['creator'])) {
 			$creator = new \Kund24\Api\Models\User();
 			$creator->jsonUnserialize($data['creator']);
 			$this->setCreator($creator);
 		}
-		if (array_key_exists("user", $data)) {
+		if ((array_key_exists("user", $data)) && ($data['user'])) {
 			$user = new \Kund24\Api\Models\User();
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);

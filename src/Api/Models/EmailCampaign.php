@@ -38,7 +38,7 @@ class EmailCampaign implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
-		if (array_key_exists("template", $data)) {
+		if ((array_key_exists("template", $data)) && ($data['template'])) {
 			$template = new \Kund24\Api\Models\EmailTemplate();
 			$template->jsonUnserialize($data['template']);
 			$this->setTemplate($template);
