@@ -27,6 +27,10 @@ class Deal implements \JsonSerializable {
 
 	private $creator;
 
+	private $createdAt;
+
+	private $updatedAt;
+
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
 		$this->contact = $contact;
 		return $this;
