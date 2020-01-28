@@ -203,6 +203,10 @@ class Contact implements \JsonSerializable {
     public function getUsePostal() {
         return $this->usePostal;
     }
+    public function setPostalAddress1($postalAddress1) {
+		$this->postalAddress1 = $postalAddress1;
+		return $this;
+	}
     public function getPostalAddress1() {
 		return $this->postalAddress1;
 	}
