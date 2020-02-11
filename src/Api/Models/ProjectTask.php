@@ -179,6 +179,7 @@ class ProjectTask implements \JsonSerializable {
         	"estimated_minutes" => $this->getEstimatedMinutes(),
         	"task_at" => $this->getTaskAt(),
         	"task_end_at" => $this->getTaskEndAt(),
+        	"ignore_task" => (($this->getTaskAt()) ? false:true),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         );
     }
