@@ -207,6 +207,15 @@ class Client {
 
         return $projectTask;
     }
+    public function updateProjectTask(\Kund24\Api\Models\ProjectTask $projectTask) {
+        $data = $this->array_remove_null($projectTask->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/projects/'.$projectTask->getProject()->getId().'/tasks/'.$projectTask->getId().'.json', $data);
+
+        $projectTask = new \Kund24\Api\Models\ProjectTask();
+        $projectTask->jsonUnserialize($result['project_task']);
+
+        return $projectTask;
+    }
     public function listProjectTasks(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
