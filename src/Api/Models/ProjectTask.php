@@ -17,6 +17,8 @@ class ProjectTask implements \JsonSerializable {
 
 	private $user;
 
+	private $reference;
+
 	private $logs = array();
 
 	private $taskAt;
