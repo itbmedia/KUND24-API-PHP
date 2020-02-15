@@ -21,6 +21,8 @@ class Deal implements \JsonSerializable {
 
 	private $content = '';
 
+	private $type;
+
 	private $currency = 'SEK';
 
 	private $user;
@@ -86,6 +88,13 @@ class Deal implements \JsonSerializable {
 	}
 	public function getStage() {
 		return $this->stage;
+	}
+	public function setType($type) {
+		$this->type = $type;
+		return $this;
+	}
+	public function getType() {
+		return $this->type;
 	}
 	public function setField($field) {
 		$this->field = $field;
@@ -157,6 +166,9 @@ class Deal implements \JsonSerializable {
 		if (array_key_exists("stage", $data)) {
 			$this->setStage($data['stage']['title']);
 		}
+		if (array_key_exists("type", $data)) {
+			$this->setType($data['type']['title']);
+		}
 		if (array_key_exists("field", $data)) {
 			$this->setField($data['field']['title']);
 		}
@@ -189,6 +201,7 @@ class Deal implements \JsonSerializable {
         	"source" => $this->getSource(),
         	"reference" => $this->getReference(),
         	"stage" => $this->getStage(),
+        	"type" => $this->getType(),
         	"created_at" => $this->getCreatedAt(),
         	"updated_at" => $this->getUpdatedAt(),
         	"content" => $this->getContent(),
