@@ -311,6 +311,45 @@ class Client {
 
         return $post;
     }
+    public function createTrigger(\Kund24\Api\Models\Trigger $trigger) {
+        $data = $this->array_remove_null($trigger->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/triggers.json', $data);
+
+        $trigger = new \Kund24\Api\Models\Trigger();
+        $trigger->jsonUnserialize($result['trigger']);
+
+        return $trigger;
+    }
+    public function updateTrigger(\Kund24\Api\Models\Trigger $trigger) {
+        $data = $this->array_remove_null($trigger->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/triggers/'.$trigger->getId().'.json', $data);
+
+        $trigger = new \Kund24\Api\Models\Trigger();
+        $trigger->jsonUnserialize($result['trigger']);
+
+        return $trigger;
+    }
+    public function getTrigger($id) {
+        $result = $this->makeCurlRequest('GET', '/triggers/'.$id.'.json');
+        $trigger = new \Kund24\Api\Models\Trigger();
+        $trigger->jsonUnserialize($result['trigger']);
+
+        return $trigger;
+    }
+    public function listTriggers(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/triggers.json', $query);
+
+        foreach ($result['triggers'] as $key => $row) {
+            $trigger = new \Kund24\Api\Models\Trigger();
+            $trigger->jsonUnserialize($row);
+            $result['triggers'][$key] = $trigger;
+        }
+
+        return $result;
+    }
     protected function array_remove_null($haystack) {
         foreach ($haystack as $key => $value) {
             if (is_array($value)) {
