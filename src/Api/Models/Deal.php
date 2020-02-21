@@ -68,6 +68,13 @@ class Deal implements \JsonSerializable {
 	public function getTitle() {
 		return $this->title;
 	}
+	public function setArchived($archived) {
+		$this->archived = $archived;
+		return $this;
+	}
+	public function getArchived() {
+		return $this->archived;
+	}
 	public function setReference($reference) {
 		$this->reference = $reference;
 		return $this;
@@ -148,6 +155,9 @@ class Deal implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
+		if (array_key_exists("archived", $data)) {
+			$this->setArchived($data['archived']);
+		}
 		if (array_key_exists("created_at", $data)) {
 			$this->setCreatedAt($data['created_at']);
 		}
@@ -196,6 +206,7 @@ class Deal implements \JsonSerializable {
         	"id" => $this->getId(),
         	"value" => $this->getValue(),
         	"title" => $this->getTitle(),
+        	"archived" => $this->getArchived(),
         	"currency" => $this->getCurrency(),
         	"field" => $this->getField(),
         	"source" => $this->getSource(),
