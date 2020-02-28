@@ -57,6 +57,15 @@ class Client {
 
 		return $deal;
 	}
+    public function updateDeal(\Kund24\Api\Models\Deal $deal) {
+        $data = $this->array_remove_null($contact->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/deals/'.$deal->getId().'.json', $data);
+
+        $deal = new \Kund24\Api\Models\Deal();
+        $deal->jsonUnserialize($result['deal']);
+
+        return $deal;
+    }
     public function listDeals(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
