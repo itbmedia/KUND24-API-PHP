@@ -11,6 +11,8 @@ class Deal implements \JsonSerializable {
 
 	private $value = 0;
 
+	private $archived;
+
 	private $source = 'API';
 
 	private $field = 'Standardavdelning';
