@@ -7,6 +7,8 @@ class Upload implements \JsonSerializable {
 
 	private $url;
 
+	private $type;
+
 	private $name;
 
 	private $data;
@@ -19,6 +21,13 @@ class Upload implements \JsonSerializable {
 	}
 	public function getSize() {
 		return $this->size;
+	}
+	public function setType($type) {
+		$this->type = $type;
+		return $this;
+	}
+	public function getType() {
+		return $this->type;
 	}
 	public function setData($base64EncodedData) {
 		$this->data = $base64EncodedData;
@@ -33,13 +42,6 @@ class Upload implements \JsonSerializable {
 	}
 	public function getName() {
 		return $this->name;
-	}
-	public function setUrl($url) {
-		$this->url = $url;
-		return $this;
-	}
-	public function getUrl() {
-		return $this->url;
 	}
 	public function setUrl($url) {
 		$this->url = $url;
@@ -71,6 +73,9 @@ class Upload implements \JsonSerializable {
 		if (array_key_exists("data", $data)) {
 			$this->setName($data['data']);
 		}
+		if (array_key_exists("type", $data)) {
+			$this->setType($data['type']);
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -78,6 +83,7 @@ class Upload implements \JsonSerializable {
         	"url" => $this->getUrl(),
         	"size" => $this->getSize(),
         	"name" => $this->getName(),
+        	"type" => $this->getType(),
         	"data" => $this->getData(),
         );
     }
