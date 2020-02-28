@@ -209,8 +209,8 @@ class Deal implements \JsonSerializable {
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);
 		}
-		if ((array_key_exists("uploads", $data)) && ($data['uploads'])) {
-			foreach ($data['uploads'] as $upl) {
+		if ((array_key_exists("files", $data)) && ($data['files'])) {
+			foreach ($data['files'] as $upl) {
 				$upload = new \Kund24\Api\Models\Upload();
 				$upload->jsonUnserialize($upl);
 				$this->addUpload($upload);
@@ -234,6 +234,7 @@ class Deal implements \JsonSerializable {
         	"content" => $this->getContent(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
+        	"files" => array_map(function($upload) { return $upload->jsonSerialize(); }, $this->getUploads()),
         );
     }
 }
