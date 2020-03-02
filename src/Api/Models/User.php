@@ -19,6 +19,8 @@ class User implements \JsonSerializable {
 
 	private $roles = array();
 
+	private $fields = array();
+
 	public function setName($name) {
 		$this->name = $name;
 		return $this;
@@ -75,6 +77,13 @@ class User implements \JsonSerializable {
 	public function getId() {
 		return $this->id;
 	}
+	public function addField(\Kund24\Api\Models\Field $field) {
+		$this->fields[] = $field;
+		return $this;
+	}
+	public function getFields() {
+		return $this->fields;
+	}
 	public function jsonUnserialize($data) {
 		if (array_key_exists("id", $data)) {
 			$this->setId($data['id']);
@@ -102,6 +111,16 @@ class User implements \JsonSerializable {
 		if (array_key_exists("roles", $data)) {
 			$this->setRoles($data['roles']);
 		}
+		if (array_key_exists("fields", $data)) {
+			$this->setFields($data['fields']);
+		}
+		if ((array_key_exists("fields", $data)) && ($data['fields'])) {
+			foreach ($data['fields'] as $f) {
+				$field = new \Kund24\Api\Models\Field();
+				$field->jsonUnserialize($f);
+				$this->addField($field);
+			}
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -110,6 +129,7 @@ class User implements \JsonSerializable {
         	"email" => $this->getEmail(),
         	"phone" => $this->getPhone(),
         	"group" => (($this->getGroup()) ? $this->getGroup()->jsonSerialize():null),
+        	"fields" => array_map(function($field) { return $field->jsonSerialize(); }, $this->getFields()),
         );
     }
 }
