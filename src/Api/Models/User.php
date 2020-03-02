@@ -111,9 +111,6 @@ class User implements \JsonSerializable {
 		if (array_key_exists("roles", $data)) {
 			$this->setRoles($data['roles']);
 		}
-		if (array_key_exists("fields", $data)) {
-			$this->setFields($data['fields']);
-		}
 		if ((array_key_exists("fields", $data)) && ($data['fields'])) {
 			foreach ($data['fields'] as $f) {
 				$field = new \Kund24\Api\Models\Field();
