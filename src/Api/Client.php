@@ -21,6 +21,15 @@ class Client {
 
         return $user;
     }
+    public function updateMe(\Kund24\Api\Models\User $user) {
+        $data = $this->array_remove_null($user->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/me.json', $data);
+
+        $user = new \Kund24\Api\Models\User();
+        $user->jsonUnserialize($result['user']);
+
+        return $user;
+    }
     public function sendRoleNotification($resource, $resourceId, $role, $message) {
         $result = $this->makeCurlRequest('POST', '/notifications/'.$resource.'/'.$resourceId.'/roles/'.$role.'.json', array("content" => $message));
 
