@@ -77,7 +77,7 @@ class User implements \JsonSerializable {
 	public function getId() {
 		return $this->id;
 	}
-	public function addField(\Kund24\Api\Models\Field $field) {
+	public function addField(\Kund24\Api\Models\Field $field) {
 		$this->fields[] = $field;
 		return $this;
 	}
