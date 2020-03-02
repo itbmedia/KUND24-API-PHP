@@ -17,6 +17,8 @@ class ProjectTask implements \JsonSerializable {
 
 	private $user;
 
+	private $parent;
+
 	private $reference;
 
 	private $logs = array();
@@ -89,6 +91,13 @@ class ProjectTask implements \JsonSerializable {
 	public function getUser() {
 		return $this->user;
 	}
+	public function setParent(\Kund24\Api\Models\Parent $parent) {
+		$this->parent = $parent;
+		return $this;
+	}
+	public function getParent() {
+		return $this->parent;
+	}
 	public function setTaskAt($taskAt) {
 		$this->taskAt = $taskAt;
 		return $this;
@@ -160,6 +169,11 @@ class ProjectTask implements \JsonSerializable {
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);
 		}
+		if ((array_key_exists("parent", $data)) && ($data['parent'])) {
+			$parent = new \Kund24\Api\Models\ProjectTask();
+			$parent->jsonUnserialize($data['parent']);
+			$this->setParent($parent);
+		}
 		if ((array_key_exists("logs", $data)) && ($data['logs'])) {
 			foreach ($data['logs'] as $log) {
 				$taskLog = new \Kund24\Api\Models\ProjectTaskLog();
@@ -181,6 +195,7 @@ class ProjectTask implements \JsonSerializable {
         	"task_end_at" => $this->getTaskEndAt(),
         	"ignore_task" => (($this->getTaskAt()) ? false:true),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
+        	"parent" => (($this->getParent()) ? $this->getParent()->jsonSerialize():null),
         );
     }
 }
