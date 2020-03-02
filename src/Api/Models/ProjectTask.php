@@ -91,7 +91,7 @@ class ProjectTask implements \JsonSerializable {
 	public function getUser() {
 		return $this->user;
 	}
-	public function setParent(\Kund24\Api\Models\Parent $parent) {
+	public function setParent(\Kund24\Api\Models\ProjectTask $parent) {
 		$this->parent = $parent;
 		return $this;
 	}
