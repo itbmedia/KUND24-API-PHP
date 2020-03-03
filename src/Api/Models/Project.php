@@ -19,6 +19,8 @@ class Project implements \JsonSerializable {
 
 	private $archived; 
 
+	private $uploads = array();
+
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
 		$this->contact = $contact;
 		return $this;
@@ -68,6 +70,13 @@ class Project implements \JsonSerializable {
 	public function getReference() {
 		return $this->reference;
 	}
+	public function getUploads() {
+		return $this->uploads;
+	}
+	public function addUpload(\Kund24\Api\Models\Upload $upload) {
+		$this->uploads[] = $upload;
+		return $this;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -101,6 +110,13 @@ class Project implements \JsonSerializable {
 		}
 		if (array_key_exists("field", $data)) {
 			$this->setField($data['field']['title']);
+		}
+		if ((array_key_exists("files", $data)) && ($data['files'])) {
+			foreach ($data['files'] as $upl) {
+				$upload = new \Kund24\Api\Models\Upload();
+				$upload->jsonUnserialize($upl);
+				$this->addUpload($upload);
+			}
 		}
 	}
 	public function jsonSerialize() {
