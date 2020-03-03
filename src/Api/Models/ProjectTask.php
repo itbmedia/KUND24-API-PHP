@@ -196,6 +196,7 @@ class ProjectTask implements \JsonSerializable {
         	"ignore_task" => (($this->getTaskAt()) ? false:true),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         	"parent" => (($this->getParent()) ? $this->getParent()->jsonSerialize():null),
+        	"project" => (($this->getProject()) ? $this->getProject()->jsonSerialize():null)
         );
     }
 }
