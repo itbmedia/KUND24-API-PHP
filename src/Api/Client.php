@@ -234,6 +234,13 @@ class Client {
 
         return $projectTask;
     }
+    public function getProjectTask($id) {
+        $result = $this->makeCurlRequest('GET', '/project_tasks/'.$id.'.json');
+        $projectTask = new \Kund24\Api\Models\ProjectTask();
+        $projectTask->jsonUnserialize($result['project_task']);
+
+        return $projectTask;
+    } 
     public function listProjectTasks(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
