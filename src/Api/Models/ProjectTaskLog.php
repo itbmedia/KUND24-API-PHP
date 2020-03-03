@@ -13,12 +13,21 @@ class ProjectTaskLog implements \JsonSerializable {
 
 	private $user;
 
+	private $uploads = array();
+
 	public function setUser(\Kund24\Api\Models\User $user) {
 		$this->user = $user;
 		return $this;
 	}
 	public function getUser() {
 		return $this->user;
+	}
+	public function getUploads() {
+		return $this->uploads;
+	}
+	public function addUpload(\Kund24\Api\Models\Upload $upload) {
+		$this->uploads[] = $upload;
+		return $this;
 	}
 	public function setMinutes($minutes) {
 		$this->minutes = $minutes;
@@ -66,6 +75,13 @@ class ProjectTaskLog implements \JsonSerializable {
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);
 		}
+		if ((array_key_exists("files", $data)) && ($data['files'])) {
+			foreach ($data['files'] as $upl) {
+				$upload = new \Kund24\Api\Models\Upload();
+				$upload->jsonUnserialize($upl);
+				$this->addUpload($upload);
+			}
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -74,6 +90,7 @@ class ProjectTaskLog implements \JsonSerializable {
         	"status" => $this->getStatus(),
         	"comment" => $this->getComment(),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
+        	"files" => array_map(function($upload) { return $upload->jsonSerialize(); }, $this->getUploads()),
         );
     }
 }
