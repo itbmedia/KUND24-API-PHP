@@ -15,6 +15,10 @@ class Upload implements \JsonSerializable {
 
 	private $size;
 
+	private $createdAt;
+
+	private $updatedAt;
+
 	public function setSize($size) {
 		$this->size = $size;
 		return $this;
@@ -35,6 +39,20 @@ class Upload implements \JsonSerializable {
 	}
 	public function getData() {
 		return $this->data;
+	}
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
+		return $this;
+	}
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
+		return $this;
+	}
+	public function getUpdatedAt() {
+		return $this->updatedAt;
 	}
 	public function setName($name) {
 		$this->name = $name;
@@ -79,6 +97,12 @@ class Upload implements \JsonSerializable {
 		if (array_key_exists("type", $data)) {
 			$this->setType($data['type']);
 		}
+		if (array_key_exists("created_at", $data)) {
+			$this->setCreatedAt($data['created_at']);
+		}
+		if (array_key_exists("updated_at", $data)) {
+			$this->setUpdatedAt($data['updated_at']);
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -89,6 +113,8 @@ class Upload implements \JsonSerializable {
         	"filename" => $this->getName(),
         	"type" => $this->getType(),
         	"data" => $this->getData(),
+        	"created_at" => $this->getCreatedAt(),
+        	"updated_at" => $this->getUpdatedAt(),
         );
     }
 }
