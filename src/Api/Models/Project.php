@@ -129,6 +129,7 @@ class Project implements \JsonSerializable {
         	"archived" => $this->getArchived(),
         	"reference" => $this->getReference(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
+        	"files" => array_map(function($upload) { return $upload->jsonSerialize(); }, $this->getUploads()),
         );
     }
 }
