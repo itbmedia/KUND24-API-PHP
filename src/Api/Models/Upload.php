@@ -70,6 +70,9 @@ class Upload implements \JsonSerializable {
 		if (array_key_exists("name", $data)) {
 			$this->setName($data['name']);
 		}
+		if (array_key_exists("filename", $data)) {
+			$this->setName($data['filename']);
+		}
 		if (array_key_exists("data", $data)) {
 			$this->setName($data['data']);
 		}
@@ -83,6 +86,7 @@ class Upload implements \JsonSerializable {
         	"url" => $this->getUrl(),
         	"size" => $this->getSize(),
         	"name" => $this->getName(),
+        	"filename" => $this->getName(),
         	"type" => $this->getType(),
         	"data" => $this->getData(),
         );
