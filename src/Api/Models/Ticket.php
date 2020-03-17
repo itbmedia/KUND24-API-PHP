@@ -28,19 +28,19 @@ class Ticket implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
-	public function setField($field) {
-		$this->field = $field;
-		return $this;
-	}
-	public function getField() {
-		return $this->field;
-	}
 	public function setProject(\Kund24\Api\Models\Project $project) {
 		$this->project = $project;
 		return $this;
 	}
 	public function getProject() {
 		return $this->project;
+	}
+	public function setField($field) {
+		$this->field = $field;
+		return $this;
+	}
+	public function getField() {
+		return $this->field;
 	}
 	public function setTitle($title) {
 		$this->title = $title;

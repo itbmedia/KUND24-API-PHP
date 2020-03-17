@@ -23,6 +23,8 @@ class ProjectTask implements \JsonSerializable {
 
 	private $logs = array();
 
+	private $deadlineAt;
+
 	private $taskAt;
 
 	private $taskEndAt;
@@ -98,6 +100,13 @@ class ProjectTask implements \JsonSerializable {
 	public function getParent() {
 		return $this->parent;
 	}
+	public function setDeadlineAt($deadlineAt) {
+		$this->deadlineAt = $deadlineAt;
+		return $this;
+	}
+	public function getDeadlineAt() {
+		return $this->deadlineAt;
+	}
 	public function setTaskAt($taskAt) {
 		$this->taskAt = $taskAt;
 		return $this;
@@ -148,6 +157,9 @@ class ProjectTask implements \JsonSerializable {
 		if (array_key_exists("estimated_minutes", $data)) {
 			$this->setEstimatedMinutes($data['estimated_minutes']);
 		}
+		if (array_key_exists("deadline_at", $data)) {
+			$this->setDeadlineAt($data['deadline_at']);
+		}
 		if (array_key_exists("task_at", $data)) {
 			$this->setTaskAt($data['task_at']);
 		}
@@ -191,6 +203,7 @@ class ProjectTask implements \JsonSerializable {
         	"type" => $this->getType(),
         	"status" => $this->getStatus(),
         	"estimated_minutes" => $this->getEstimatedMinutes(),
+        	"deadline_at" => $this->getDeadlineAt(),
         	"task_at" => $this->getTaskAt(),
         	"task_end_at" => $this->getTaskEndAt(),
         	"ignore_task" => (($this->getTaskAt()) ? false:true),
