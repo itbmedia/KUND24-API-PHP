@@ -19,6 +19,8 @@ class Ticket implements \JsonSerializable {
 
 	private $channel = 'email';
 
+	private $deadlineAt;
+
 	private $events = array();
 
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
@@ -34,6 +36,13 @@ class Ticket implements \JsonSerializable {
 	}
 	public function getProject() {
 		return $this->project;
+	}
+	public function setDeadlineAt($deadlineAt) {
+		$this->deadlineAt = $deadlineAt;
+		return $this;
+	}
+	public function getDeadlineAt() {
+		return $this->deadlineAt;
 	}
 	public function setField($field) {
 		$this->field = $field;
@@ -101,6 +110,9 @@ class Ticket implements \JsonSerializable {
 		if (array_key_exists("channel", $data)) {
 			$this->setChannel($data['channel']);
 		}
+		if (array_key_exists("deadline_at", $data)) {
+			$this->setDeadlineAt($data['deadline_at']);
+		}
 		if ((array_key_exists("contact", $data)) && ($data['contact'])) {
 			$contact = new \Kund24\Api\Models\Contact();
 			$contact->jsonUnserialize($data['contact']);
@@ -128,6 +140,7 @@ class Ticket implements \JsonSerializable {
         	"title" => $this->getTitle(),
         	"number" => $this->getNumber(),
         	"status" => $this->getStatus(),
+        	"deadline_at" => $this->getDeadlineAt(),
         	"field" => $this->getField(),
         	"channel" => $this->getChannel(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
