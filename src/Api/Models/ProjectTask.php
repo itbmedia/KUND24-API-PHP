@@ -19,6 +19,8 @@ class ProjectTask implements \JsonSerializable {
 
 	private $parent;
 
+	private $ticket;
+
 	private $reference;
 
 	private $logs = array();
@@ -71,6 +73,13 @@ class ProjectTask implements \JsonSerializable {
 	public function addLog(\Kund24\Api\Models\ProjectTaskLog $taskLog) {
 		$this->logs[] = $taskLog;
 		return $this;
+	}
+	public function setTicket(\Kund24\Api\Models\Ticket $ticket) {
+		$this->ticket = $ticket;
+		return $this;
+	}
+	public function getTicket() {
+		return $this->ticket;
 	}
 	public function setProject(\Kund24\Api\Models\Project $project) {
 		$this->project = $project;
@@ -181,6 +190,11 @@ class ProjectTask implements \JsonSerializable {
 			$user->jsonUnserialize($data['user']);
 			$this->setUser($user);
 		}
+		if ((array_key_exists("ticket", $data)) && ($data['ticket'])) {
+			$ticket = new \Kund24\Api\Models\Ticket();
+			$ticket->jsonUnserialize($data['ticket']);
+			$this->setTicket($ticket);
+		}
 		if ((array_key_exists("parent", $data)) && ($data['parent'])) {
 			$parent = new \Kund24\Api\Models\ProjectTask();
 			$parent->jsonUnserialize($data['parent']);
@@ -208,6 +222,7 @@ class ProjectTask implements \JsonSerializable {
         	"task_end_at" => $this->getTaskEndAt(),
         	"ignore_task" => (($this->getTaskAt()) ? false:true),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
+        	"ticket" => (($this->getTicket()) ? $this->getTicket()->jsonSerialize():null),
         	"parent" => (($this->getParent()) ? $this->getParent()->jsonSerialize():null),
         	"project" => (($this->getProject()) ? $this->getProject()->jsonSerialize():null)
         );
