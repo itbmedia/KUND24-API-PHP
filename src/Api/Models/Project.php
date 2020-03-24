@@ -19,6 +19,10 @@ class Project implements \JsonSerializable {
 
 	private $archived; 
 
+	private $users = array();
+
+	private $groups = array();
+
 	private $uploads = array();
 
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
@@ -77,6 +81,20 @@ class Project implements \JsonSerializable {
 		$this->uploads[] = $upload;
 		return $this;
 	}
+	public function getUsers() {
+		return $this->users;
+	}
+	public function addUser(\Kund24\Api\Models\User $user) {
+		$this->users[] = $user;
+		return $this;
+	}
+	public function getGroups() {
+		return $this->groups;
+	}
+	public function addGroup(\Kund24\Api\Models\UserGroup $group) {
+		$this->groups[] = $group;
+		return $this;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -118,6 +136,20 @@ class Project implements \JsonSerializable {
 				$this->addUpload($upload);
 			}
 		}
+		if ((array_key_exists("users", $data)) && ($data['users'])) {
+			foreach ($data['users'] as $usr) {
+				$user = new \Kund24\Api\Models\User();
+				$user->jsonUnserialize($usr);
+				$this->addUser($user);
+			}
+		}
+		if ((array_key_exists("groups", $data)) && ($data['groups'])) {
+			foreach ($data['groups'] as $grp) {
+				$group = new \Kund24\Api\Models\UserGroup();
+				$group->jsonUnserialize($grp);
+				$this->addGroup($group);
+			}
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -130,6 +162,8 @@ class Project implements \JsonSerializable {
         	"reference" => $this->getReference(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"files" => array_map(function($upload) { return $upload->jsonSerialize(); }, $this->getUploads()),
+        	"users" => array_map(function($user) { return $user->jsonSerialize(); }, $this->getUsers()),
+        	"groups" => array_map(function($group) { return $group->jsonSerialize(); }, $this->getGroups()),
         );
     }
 }
