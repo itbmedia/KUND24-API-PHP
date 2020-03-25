@@ -19,6 +19,13 @@ class Comment implements \JsonSerializable {
 	public function getId() {
 		return $this->id;
 	}
+	public function setContent($content) {
+		$this->content = $content;
+		return $this;
+	}
+	public function getContent() {
+		return $this->content;
+	}
 	public function setUser(\Kund24\Api\Models\User $user) {
 		$this->user = $user;
 		return $this;
