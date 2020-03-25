@@ -168,6 +168,29 @@ class Client {
 
         return $result;
     }
+    public function listContactComments($contactId, Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/contacts/'.$contactId.'/.json', $query);
+
+        foreach ($result['comments'] as $key => $row) {
+            $comment = new \Kund24\Api\Models\Comment();
+            $comment->jsonUnserialize($row);
+            $result['comments'][$key] = $comment;
+        }
+
+        return $result;
+    }
+    public function createContactComment($contactId, \Kund24\Api\Models\Comment $comment) {
+        $data = $this->array_remove_null($comment->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/contacts/'.$contactId.'/comments.json', $data);
+
+        $comment = new \Kund24\Api\Models\Comment();
+        $comment->jsonUnserialize($result['comment']);
+
+        return $comment;
+    }
     public function createContactAddress($contactId, \Kund24\Api\Models\ContactAddress $contactAddress) {
         $data = $this->array_remove_null($contactAddress->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/contacts/'.$contactId.'/addresses.json', $data);
@@ -215,6 +238,29 @@ class Client {
         }
 
         return $result;
+    }
+    public function listProjectComments($projectId, Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/projects/'.$projectId.'/.json', $query);
+
+        foreach ($result['comments'] as $key => $row) {
+            $comment = new \Kund24\Api\Models\Comment();
+            $comment->jsonUnserialize($row);
+            $result['comments'][$key] = $comment;
+        }
+
+        return $result;
+    }
+    public function createProjectComment($projectId, \Kund24\Api\Models\Comment $comment) {
+        $data = $this->array_remove_null($comment->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/projects/'.$projectId.'/comments.json', $data);
+
+        $comment = new \Kund24\Api\Models\Comment();
+        $comment->jsonUnserialize($result['comment']);
+
+        return $comment;
     }
     public function createProjectTask($projectId, \Kund24\Api\Models\ProjectTask $projectTask) {
         $data = $this->array_remove_null($projectTask->jsonSerialize());
