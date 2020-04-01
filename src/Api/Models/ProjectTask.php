@@ -33,6 +33,8 @@ class ProjectTask implements \JsonSerializable {
 
 	private $estimatedMinutes;
 
+	private $loggedMinutes;
+
 	private $creator;
 
 	public function setTitle($title) {
@@ -137,6 +139,13 @@ class ProjectTask implements \JsonSerializable {
 	public function getEstimatedMinutes() {
 		return $this->estimatedMinutes;
 	}
+	public function setLoggedMinutes($loggedMinutes) {
+		$this->loggedMinutes = $loggedMinutes;
+		return $this;
+	}
+	public function getLoggedMinutes() {
+		return $this->loggedMinutes;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -165,6 +174,9 @@ class ProjectTask implements \JsonSerializable {
 		}
 		if (array_key_exists("estimated_minutes", $data)) {
 			$this->setEstimatedMinutes($data['estimated_minutes']);
+		}
+		if (array_key_exists("logged_minutes", $data)) {
+			$this->setLoggedMinutes($data['logged_minutes']);
 		}
 		if (array_key_exists("deadline_at", $data)) {
 			$this->setDeadlineAt($data['deadline_at']);
@@ -217,6 +229,7 @@ class ProjectTask implements \JsonSerializable {
         	"type" => $this->getType(),
         	"status" => $this->getStatus(),
         	"estimated_minutes" => $this->getEstimatedMinutes(),
+        	"logged_minutes" => $this->getLoggedMinutes(),
         	"deadline_at" => $this->getDeadlineAt(),
         	"task_at" => $this->getTaskAt(),
         	"task_end_at" => $this->getTaskEndAt(),
