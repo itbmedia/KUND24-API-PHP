@@ -40,6 +40,9 @@ class TicketEvent implements \JsonSerializable {
 		return $this->ticket;
 	}
 	public function setStatus($status) {
+		if (($status) && (!in_array($status, array("closed", "spam", "removed", "open", "pending")))) {
+			throw new \Exception('Status must be one of [closed, spam, removed, open, pending]');
+		}
 		$this->status = $status;
 		return $this;
 	}
