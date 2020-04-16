@@ -129,6 +129,18 @@ class Client {
 
         return $result;
     }
+    public function createTicketEvent($ticketId, \Kund24\Api\Models\TicketEvent $ticketEvent) {
+        $data = $this->array_remove_null($ticketEvent->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/tickets/'.$ticketId.'/events.json', $data);
+
+        $ticket = new \Kund24\Api\Models\Ticket();
+        $ticket->jsonUnserialize($result['ticket']);
+
+        $ticketEvent = new \Kund24\Api\Models\TicketEvent();
+        $ticketEvent->jsonUnserialize($result['event']);
+
+        return $ticketEvent;
+    }
     public function createContact(\Kund24\Api\Models\Contact $contact) {
         $data = $this->array_remove_null($contact->jsonSerialize());
         $result = $this->makeCurlRequest('POST', '/contacts.json', $data);
