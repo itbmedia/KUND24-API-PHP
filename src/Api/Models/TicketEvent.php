@@ -53,6 +53,13 @@ class TicketEvent implements \JsonSerializable {
 	public function getContact() {
 		return $this->contact;
 	}
+	public function setUser(\Kund24\Api\Models\User $user) {
+		$this->user = $user;
+		return $this;
+	}
+	public function getUser() {
+		return $this->user;
+	}
 	public function setMessage($message) {
 		$this->message = $message;
 		return $this;
