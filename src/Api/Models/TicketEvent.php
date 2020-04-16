@@ -12,7 +12,11 @@ class TicketEvent implements \JsonSerializable {
 
 	private $message;
 
+	private $status;
+
 	private $contact;
+
+	private $user;
 
 	public function __construct($message = null, $internal = false) {
 		if ($message) {
@@ -34,6 +38,13 @@ class TicketEvent implements \JsonSerializable {
 	}
 	public function getTicket() {
 		return $this->ticket;
+	}
+	public function setStatus($status) {
+		$this->status = $status;
+		return $this;
+	}
+	public function getStatus() {
+		return $this->status;
 	}
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
 		$this->contact = $contact;
@@ -63,6 +74,9 @@ class TicketEvent implements \JsonSerializable {
 		if (array_key_exists("message", $data)) {
 			$this->setMessage($data['message']);
 		}
+		if (array_key_exists("status", $data)) {
+			$this->setStatus($data['status']);
+		}
 		if (array_key_exists("internal", $data)) {
 			$this->setInternal($data['internal']);
 		}
@@ -71,13 +85,20 @@ class TicketEvent implements \JsonSerializable {
 			$contact->jsonUnserialize($data['contact']);
 			$this->setContact($contact);
 		}
+		if ((array_key_exists("user", $data)) && ($data['user'])) {
+			$user = new \Kund24\Api\Models\User();
+			$user->jsonUnserialize($data['user']);
+			$this->setUser($user);
+		}
 	}
 	public function jsonSerialize() {
         return array(
         	"id" => $this->getId(),
         	"message" => $this->getMessage(),
+        	"status" => $this->getStatus(),
         	"internal" => $this->getInternal(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
+        	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         );
     }
 }
