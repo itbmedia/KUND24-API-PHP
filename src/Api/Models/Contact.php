@@ -16,6 +16,8 @@ class Contact implements \JsonSerializable {
 
 	private $lastName;
 
+	private $title;
+
 	private $company;
 
 	private $phone;
@@ -77,6 +79,13 @@ class Contact implements \JsonSerializable {
 	}
 	public function getPhone() {
 		return $this->phone;
+	}
+	public function setTitle($title) {
+		$this->title = $title;
+		return $this;
+	}
+	public function getTitle() {
+		return $this->title;
 	}
 	public function setEmail($email) {
 		$this->email = $email;
@@ -250,6 +259,9 @@ class Contact implements \JsonSerializable {
 		if (array_key_exists("last_name", $data)) {
 			$this->setLastName($data['last_name']);
 		}
+		if (array_key_exists("title", $data)) {
+			$this->setTitle($data['title']);
+		}
 		if (array_key_exists("email", $data)) {
 			$this->setEmail($data['email']);
 		}
@@ -337,6 +349,7 @@ class Contact implements \JsonSerializable {
         	"is_company" => $this->getIsCompany(),
         	"first_name" => $this->getFirstName(),
         	"last_name" => $this->getLastName(),
+        	"title" => $this->getTitle(),
         	"name" => $this->getName(),
         	"company" => $this->getCompany(),
         	"email" => $this->getEmail(),
