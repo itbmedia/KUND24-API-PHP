@@ -327,6 +327,15 @@ class Client {
 
         return $projectTaskLog;
     }
+    public function updateProjectTaskLog(\Kund24\Api\Models\ProjectTaskLog $projectTaskLog) {
+        $data = $this->array_remove_null($projectTaskLog->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/project_task_logs/'.$projectTaskLog->getId().'.json', $data);
+
+        $projectTaskLog = new \Kund24\Api\Models\ProjectTaskLog();
+        $projectTaskLog->jsonUnserialize($result['project_task_log']);
+
+        return $projectTaskLog;
+    }
     public function listProjectTaskLogs(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
