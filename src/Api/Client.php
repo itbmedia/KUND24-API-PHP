@@ -40,6 +40,20 @@ class Client {
 
         return $result;
     }
+    public function listGroups(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/groups.json', $query);
+
+        foreach ($result['groups'] as $key => $row) {
+            $group = new \Kund24\Api\Models\UserGroup();
+            $group->jsonUnserialize($row);
+            $result['groups'][$key] = $group;
+        }
+
+        return $result;
+    }
     public function listUsers(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
