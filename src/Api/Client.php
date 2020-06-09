@@ -72,6 +72,37 @@ class Client {
         $data = array("contact_ids" => $contactIds, "metafields" => $metafields);
         return $this->makeCurlRequest('POST', '/email_campaigns/'.$campaignId.'/contacts.json', $data);
     }
+    public function createTask(\Kund24\Api\Models\Task $task) {
+        $data = $this->array_remove_null($task->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/tasks.json', $data);
+        $task = new \Kund24\Api\Models\Task();
+        $task->jsonUnserialize($result['task']);
+
+        return $task;
+    }
+    public function updateTask(\Kund24\Api\Models\Task $task) {
+        $data = $this->array_remove_null($task->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/tasks/'.$task->getId().'.json', $data);
+
+        $task = new \Kund24\Api\Models\Task();
+        $task->jsonUnserialize($result['task']);
+
+        return $task;
+    }
+    public function listTasks(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/tasks.json', $query);
+
+        foreach ($result['tasks'] as $key => $row) {
+            $task = new \Kund24\Api\Models\Task();
+            $task->jsonUnserialize($row);
+            $result['tasks'][$key] = $task;
+        }
+
+        return $result;
+    }
 	public function createDeal(\Kund24\Api\Models\Deal $deal) {
 		$data = $this->array_remove_null($deal->jsonSerialize());
 		$result = $this->makeCurlRequest('POST', '/deals.json', $data);
