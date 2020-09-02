@@ -15,7 +15,7 @@ class Ticket implements \JsonSerializable {
 
 	private $number;
 
-	private $status = 'open';
+	private $status;
 
 	private $channel = 'email';
 
