@@ -120,6 +120,13 @@ class Client {
 
         return $deal;
     }
+    public function getDeal($id) {
+        $result = $this->makeCurlRequest('GET', '/deals/'.$id.'.json');
+        $deal = new \Kund24\Api\Models\Deal();
+        $deal->jsonUnserialize($result['deal']);
+
+        return $deal;
+    }
     public function listDeals(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
