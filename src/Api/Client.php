@@ -232,6 +232,10 @@ class Client {
 
         return $result;
     }
+    public function removeContact($id) {
+        $result = $this->makeCurlRequest('DELETE', '/contacts/'.$id.'.json');
+        return $contact;
+    }
     public function listContactComments($contactId, Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
