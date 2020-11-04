@@ -30,13 +30,13 @@ class Client {
 
         return $user;
     }
-    public function sendRoleNotification($resource, $resourceId, $role, $message) {
-        $result = $this->makeCurlRequest('POST', '/notifications/'.$resource.'/'.$resourceId.'/roles/'.$role.'.json', array("content" => $message));
+    public function sendRoleNotification($resource, $resourceId, $role, $message, $priority='normal') {
+        $result = $this->makeCurlRequest('POST', '/notifications/'.$resource.'/'.$resourceId.'/roles/'.$role.'.json', array("content" => $message, "priority" => $priority));
 
         return $result;
     }
-    public function sendUserNotification($resource, $resourceId, $userId, $message) {
-        $result = $this->makeCurlRequest('POST', '/notifications/'.$resource.'/'.$resourceId.'/users/'.$userId.'.json', array("content" => $message));
+    public function sendUserNotification($resource, $resourceId, $userId, $message, $priority='normal') {
+        $result = $this->makeCurlRequest('POST', '/notifications/'.$resource.'/'.$resourceId.'/users/'.$userId.'.json', array("content" => $message, "priority" => $priority));
 
         return $result;
     }
