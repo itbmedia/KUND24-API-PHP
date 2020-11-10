@@ -11,6 +11,8 @@ class Deal implements \JsonSerializable {
 
 	private $value = 0;
 
+	private $margin = 0;
+
 	private $archived;
 
 	private $source = 'API';
@@ -33,6 +35,10 @@ class Deal implements \JsonSerializable {
 
 	private $creator;
 
+	private $decisionAt;
+
+	private $completeAt;
+
 	private $createdAt;
 
 	private $updatedAt;
@@ -50,6 +56,27 @@ class Deal implements \JsonSerializable {
 	}
 	public function getValue() {
 		return $this->value;
+	}
+	public function setMargin($margin) {
+		$this->margin = $margin;
+		return $this;
+	}
+	public function getMargin() {
+		return $this->margin;
+	}
+	public function setDecisionAt($decisionAt) {
+		$this->decisionAt = $decisionAt;
+		return $this;
+	}
+	public function getDecisionAt() {
+		return $this->decisionAt;
+	}
+	public function setCompleteAt($completeAt) {
+		$this->completeAt = $completeAt;
+		return $this;
+	}
+	public function getCompleteAt() {
+		return $this->completeAt;
 	}
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
@@ -163,11 +190,20 @@ class Deal implements \JsonSerializable {
 		if (array_key_exists("value", $data)) {
 			$this->setValue($data['value']);
 		}
+		if (array_key_exists("margin", $data)) {
+			$this->setMargin($data['margin']);
+		}
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
 		if (array_key_exists("archived", $data)) {
 			$this->setArchived($data['archived']);
+		}
+		if (array_key_exists("decision_at", $data)) {
+			$this->setDecisionAt($data['decision_at']);
+		}
+		if (array_key_exists("complete_at", $data)) {
+			$this->setCompleteAt($data['complete_at']);
 		}
 		if (array_key_exists("created_at", $data)) {
 			$this->setCreatedAt($data['created_at']);
@@ -223,6 +259,7 @@ class Deal implements \JsonSerializable {
         return array(
         	"id" => $this->getId(),
         	"value" => $this->getValue(),
+        	"margin" => $this->getMargin(),
         	"title" => $this->getTitle(),
         	"archived" => $this->getArchived(),
         	"currency" => $this->getCurrency(),
@@ -231,6 +268,8 @@ class Deal implements \JsonSerializable {
         	"reference" => $this->getReference(),
         	"stage" => $this->getStage(),
         	"type" => $this->getType(),
+        	"decision_at" => $this->getDecisionAt(),
+        	"complete_at" => $this->getCompleteAt(),
         	"created_at" => $this->getCreatedAt(),
         	"updated_at" => $this->getUpdatedAt(),
         	"content" => $this->getContent(),
