@@ -484,6 +484,22 @@ class Client {
 
         return $trigger;
     }
+    public function updateIntegration(\Kund24\Api\Models\Integration $integration) {
+        $data = $this->array_remove_null($integration->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/integrations/'.$integration->getId().'.json', $data);
+
+        $integration = new \Kund24\Api\Models\Integration();
+        $integration->jsonUnserialize($result['integration']);
+
+        return $integration;
+    }
+    public function getIntegration($id) {
+        $result = $this->makeCurlRequest('GET', '/integrations/'.$id.'.json');
+        $integration = new \Kund24\Api\Models\Integration();
+        $integration->jsonUnserialize($result['integration']);
+
+        return $integration;
+    }
     public function listTriggers(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
