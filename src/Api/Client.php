@@ -103,6 +103,43 @@ class Client {
 
         return $result;
     }
+    public function getBoard($id) {
+        $result = $this->makeCurlRequest('GET', '/boards/'.$id.'.json');
+        $board = new \Kund24\Api\Models\Board();
+        $board->jsonUnserialize($result['board']);
+
+        return $board;
+    }
+    public function getBoardRow(\Kund24\Api\Models\Board $board, $id) {
+        $result = $this->makeCurlRequest('GET', '/boards/'.$board->getId().'/rows/'.$id.'.json');
+        $boardRow = new \Kund24\Api\Models\BoardRow();
+        $boardRow->setBoard($board);
+        $boardRow->jsonUnserialize($result['row']);
+
+        return $boardRow;
+    }
+    public function createBoardRow(\Kund24\Api\Models\Board $board, $boardRow) {
+        $boardRow->setBoard($board);
+        $data = $this->array_remove_null($boardRow->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/boards/'.$board->getId().'/rows.json', $data);
+
+        $boardRow = new \Kund24\Api\Models\BoardRow();
+        $boardRow->setBoard($board);
+        $boardRow->jsonUnserialize($result['row']);
+
+        return $boardRow;
+    }
+    public function updateBoardRow(\Kund24\Api\Models\Board $board, $boardRow) {
+        $boardRow->setBoard($board);
+        $data = $this->array_remove_null($boardRow->jsonSerialize());
+        $result = $this->makeCurlRequest('PUT', '/boards/'.$board->getId().'/rows/'.$boardRow->getId().'.json', $data);
+
+        $boardRow = new \Kund24\Api\Models\BoardRow();
+        $boardRow->setBoard($board);
+        $boardRow->jsonUnserialize($result['row']);
+
+        return $boardRow;
+    }
 	public function createDeal(\Kund24\Api\Models\Deal $deal) {
 		$data = $this->array_remove_null($deal->jsonSerialize());
 		$result = $this->makeCurlRequest('POST', '/deals.json', $data);
