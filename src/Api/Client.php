@@ -8,12 +8,22 @@ class Client {
 
     protected $accountId;
 
+    protected $environment = 'production';
+
 	protected $baseUrl = 'https://www.kund24.se/api';
+
+    protected $sandboxBaseUrl = 'http://dev.kund24.se/api';
 
 	public function __construct($accountId, $apiKey) {
         $this->accountId = $accountId;
 		$this->apiKey = $apiKey;
 	}
+    public function setEnvironment($environment) {
+        $this->environment = $environment;
+    }
+    public function getEnvironment() {
+        return $this->environment;
+    }
     public function getMe() {
         $result = $this->makeCurlRequest('GET', '/me.json');
         $user = new \Kund24\Api\Models\User();
@@ -567,7 +577,7 @@ class Client {
 	protected function makeCurlRequest($method, $path, $data = array()) {
         $method = strtoupper($method);
 
-        $url = $this->baseUrl.$path;
+        $url = (($this->getEnvironment() == 'production') ?  $this->baseUrl:$this->sandboxBaseUrl).$path;
         if (in_array($method, array('GET','DELETE')) && !empty($data)) {
             if (is_array($data)) $data = http_build_query($data);
             $url .= "?".ltrim($data, "?");
