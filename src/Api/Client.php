@@ -150,6 +150,11 @@ class Client {
 
         return $boardRow;
     }
+    public function removeBoardRow(\Kund24\Api\Models\Board $board, $id) {
+        $result = $this->makeCurlRequest('DELETE', '/boards/'.$board->getId().'/rows/'.$id.'.json');
+
+        return array();
+    }
 	public function createDeal(\Kund24\Api\Models\Deal $deal) {
 		$data = $this->array_remove_null($deal->jsonSerialize());
 		$result = $this->makeCurlRequest('POST', '/deals.json', $data);
