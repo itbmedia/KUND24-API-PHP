@@ -148,7 +148,6 @@ class Client {
 
         foreach ($result['rows'] as $key => $row) {
             $boardRow = new \Kund24\Api\Models\BoardRow();
-            $boardRow->jsonUnserialize($row);
 
             foreach ($result['boards'] as $board) {
                 if ($board->getId() == $row['board_id']) {
@@ -162,6 +161,7 @@ class Client {
                     break;
                 }
             }
+            $boardRow->jsonUnserialize($row);
             $result['rows'][$key] = $boardRow;
         }
 
