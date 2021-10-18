@@ -128,6 +128,45 @@ class Client {
 
         return $boardRow;
     }
+    public function searchBoardRows(Array $query, $offset = 0, $limit = 50) {
+        $query['offset'] = $offset;
+        $query['limit'] = $limit;
+        
+        $result = $this->makeCurlRequest('GET', '/board_rows/search.json', $query);
+
+        foreach ($result['boards'] as $key => $boardData) {
+            $board = new \Kund24\Api\Models\Board();
+            $board->jsonUnserialize($boardData);
+            $result['boards'][$key] = $board;
+        }
+
+        foreach ($result['groups'] as $key => $groupData) {
+            $group = new \Kund24\Api\Models\BoardGroup();
+            $group->jsonUnserialize($groupData);
+            $result['groups'][$key] = $group;
+        }
+
+        foreach ($result['rows'] as $key => $row) {
+            $boardRow = new \Kund24\Api\Models\BoardRow();
+            $boardRow->jsonUnserialize($row);
+
+            foreach ($result['boards'] as $board) {
+                if ($board->getId() == $row['board_id']) {
+                    $boardRow->setBoard($board);
+                    break;
+                }
+            }
+            foreach ($result['groups'] as $group) {
+                if ($group->getId() == $row['group_id']) {
+                    $boardRow->setGroup($group);
+                    break;
+                }
+            }
+            $result['rows'][$key] = $boardRow;
+        }
+
+        return $result;
+    }
     public function createBoardRow(\Kund24\Api\Models\Board $board, $boardRow) {
         $boardRow->setBoard($board);
         $data = $this->array_remove_null($boardRow->jsonSerialize());

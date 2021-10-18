@@ -2,14 +2,10 @@
 
 namespace Kund24\Api\Models;
 
-class BoardColumn implements \JsonSerializable {
+class BoardGroup implements \JsonSerializable {
 	private $id;
 
 	private $title;
-
-	private $type;
-
-	private $options = array();
 
 	private $board;
 
@@ -27,20 +23,6 @@ class BoardColumn implements \JsonSerializable {
 	public function getBoard() {
 		return $this->board;
 	}
-	public function setType($type) {
-		$this->type = $type;
-		return $this;
-	}
-	public function getType() {
-		return $this->type;
-	}
-	public function setOptions($options) {
-		$this->options = $options;
-		return $this;
-	}
-	public function getOptions() {
-		return $this->options;
-	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -55,19 +37,11 @@ class BoardColumn implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
-		if (array_key_exists("type", $data)) {
-			$this->setType($data['type']);
-		}
-		if (array_key_exists("options", $data)) {
-			$this->setOptions($data['options']);
-		}
 	}
 	public function jsonSerialize() {
         return array(
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
-        	"type" => $this->getType(),
-        	"options" => $this->getOptions(),
         );
     }
 }

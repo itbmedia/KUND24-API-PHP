@@ -9,6 +9,8 @@ class BoardRow implements \JsonSerializable {
 
 	private $board;
 
+	private $group;
+
 	private $values = array();
 
 	public function createValue(\Kund24\Api\Models\BoardColumn $column) {
@@ -30,6 +32,13 @@ class BoardRow implements \JsonSerializable {
 	}
 	public function getBoard() {
 		return $this->board;
+	}
+	public function setGroup(\Kund24\Api\Models\BoardGroup $group) {
+		$this->group = $group;
+		return $this;
+	}
+	public function getGroup() {
+		return $this->group;
 	}
 	public function setValues($values) {
 		$this->values = $values;
