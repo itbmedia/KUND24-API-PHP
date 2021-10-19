@@ -61,10 +61,10 @@ class BoardRow implements \JsonSerializable {
 		return null;
 	}
 	public function setValueByColumnName($name, $value) {
-		$this->setValueByColumn($this->getBoard()->getColumnByName($name), $value);
+		return $this->setValueByColumn($this->getBoard()->getColumnByName($name), $value);
 	}
 	public function getValueByColumnName($name) {
-		$this->getValueByColumn($this->getBoard()->getColumnByName($name));
+		return $this->getValueByColumn($this->getBoard()->getColumnByName($name));
 	}
 	public function setValueByColumn(\Kund24\Api\Models\BoardColumn $column, $value) {
 		$rowValue = $this->getValueByColumn($column, true);
