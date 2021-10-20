@@ -50,7 +50,10 @@ class BoardRowValue implements \JsonSerializable {
 			$this->setValue($data['value']);
 		}
 		if (array_key_exists("column_id", $data)) {
-			$this->setColumn($this->getRow()->getBoard()->getColumnById($data['column_id']));
+			$column = $this->getRow()->getBoard()->getColumnById($data['column_id']);
+			if ($column) {
+				$this->setColumn($column);
+			}
 		}
 	}
 	public function jsonSerialize() {
