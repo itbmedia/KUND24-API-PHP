@@ -33,7 +33,10 @@ class BoardRowValue implements \JsonSerializable {
 		return $this->column;
 	}
 	public function getColumnId() {
-		return $this->getColumn()->getId();
+		if ($this->getColumn()) {
+			return $this->getColumn()->getId();
+		}
+		return null;
 	}
 	public function setId($id) {
 		$this->id = $id;
