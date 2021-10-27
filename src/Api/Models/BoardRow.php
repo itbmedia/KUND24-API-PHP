@@ -73,7 +73,7 @@ class BoardRow implements \JsonSerializable {
     }
 	public function getValueByColumn(\Kund24\Api\Models\BoardColumn $column, $create = false) {
         foreach ($this->getValues() as $value) {
-            if ($value->getColumn()->getId() == $column->getId()) {
+            if (($value->getColumn()) && ($value->getColumn()->getId() == $column->getId())) {
                 return $value;
             }
         }
