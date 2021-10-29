@@ -14,6 +14,8 @@ class TicketEvent implements \JsonSerializable {
 
 	private $status;
 
+	private $files = array();
+
 	private $contact;
 
 	private $user;
@@ -70,6 +72,13 @@ class TicketEvent implements \JsonSerializable {
 	public function getMessage() {
 		return $this->message;
 	}
+	public function setFiles($files) {
+		$this->files = $files;
+		return $this;
+	}
+	public function getFiles() {
+		return $this->files;
+	}
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -86,6 +95,9 @@ class TicketEvent implements \JsonSerializable {
 		}
 		if (array_key_exists("status", $data)) {
 			$this->setStatus($data['status']);
+		}
+		if (array_key_exists("files", $data)) {
+			$this->setFiles($data['files']);
 		}
 		if (array_key_exists("internal", $data)) {
 			$this->setInternal($data['internal']);
@@ -106,6 +118,7 @@ class TicketEvent implements \JsonSerializable {
         	"id" => $this->getId(),
         	"message" => $this->getMessage(),
         	"status" => $this->getStatus(),
+        	"files" => $this->getFiles(),
         	"internal" => $this->getInternal(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
