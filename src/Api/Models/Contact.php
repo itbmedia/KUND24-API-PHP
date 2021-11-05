@@ -28,6 +28,8 @@ class Contact implements \JsonSerializable {
 
 	private $zip;
 
+	private $orgnr;
+
 	private $city;
 
 	private $country = 'SE';
@@ -65,6 +67,13 @@ class Contact implements \JsonSerializable {
 	}
 	public function getBolag() {
 		return $this->bolag;
+	}
+	public function setOrgnr($orgnr) {
+		$this->orgnr = $orgnr;
+		return $this;
+	}
+	public function getOrgnr() {
+		return $this->orgnr;
 	}
 	public function setIsCompany($isCompany) {
 		$this->isCompany = $isCompany;
