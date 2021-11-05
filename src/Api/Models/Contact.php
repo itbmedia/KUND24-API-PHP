@@ -351,6 +351,9 @@ class Contact implements \JsonSerializable {
 		if (array_key_exists("postal_city", $data)) {
 			$this->setPostalCity($data['postal_city']);
 		}
+		if (array_key_exists("orgnr", $data)) {
+			$this->setOrgnr($data['orgnr']);
+		}
 	}
 	public function jsonSerialize() {
         return array(
@@ -370,6 +373,7 @@ class Contact implements \JsonSerializable {
         	"country" => $this->getCountry(),
         	"note" => $this->getNote(),
         	"reference" => $this->getReference(),
+        	"orgnr" => $this->getOrgnr(),
         	"tags" => $this->getTags(),
         	"metafields" => array_map(function($metafield) { return $metafield->jsonSerialize(); }, $this->getMetafields()),
         	"addresses" => array_map(function($address) { return $address->jsonSerialize(); }, $this->getAddresses()),
