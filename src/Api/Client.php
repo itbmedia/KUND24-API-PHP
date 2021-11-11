@@ -120,6 +120,24 @@ class Client {
 
         return $board;
     }
+    public function getBoardGroup(\Kund24\Api\Models\Board $board, $id) {
+        $result = $this->makeCurlRequest('GET', '/boards/'.$board->getId().'/groups/'.$id.'.json');
+        $boardGroup = new \Kund24\Api\Models\BoardGroup();
+        $boardGroup->setBoard($board);
+        $boardGroup->jsonUnserialize($result['group']);
+
+        return $boardGroup;
+    }
+    public function listBoardGroups(\Kund24\Api\Models\Board $board) {
+        $result = $this->makeCurlRequest('GET', '/boards/'.$board->getId().'/groups.json');
+        foreach ($result['groups'] as $g) {
+            $boardGroup = new \Kund24\Api\Models\BoardGroup();
+            $boardGroup->setBoard($board);
+            $boardGroup->jsonUnserialize($result['group']);
+        }
+
+        return $boardGroup;
+    }
     public function getBoardRow(\Kund24\Api\Models\Board $board, $id) {
         $result = $this->makeCurlRequest('GET', '/boards/'.$board->getId().'/rows/'.$id.'.json');
         $boardRow = new \Kund24\Api\Models\BoardRow();
