@@ -178,6 +178,21 @@ class Client {
 
         return $boardRow;
     }
+    public function moveBoardRow(\Kund24\Api\Models\Board $board, $boardRow, $group, $duplicate = false, $force = false) {
+        $boardRow->setBoard($board);
+        $data = array(
+            "dupe" => $duplicate,
+            "force" => $force,
+            "group" => $this->array_remove_null($group->jsonSerialize())
+        );
+        $result = $this->makeCurlRequest('POST', '/boards/'.$board->getId().'/rows/'.$boardRow->getId().'/move.json', $data);
+
+        $boardRow = new \Kund24\Api\Models\BoardRow();
+        $boardRow->setBoard($board);
+        $boardRow->jsonUnserialize($result['row']);
+
+        return $boardRow;
+    }
     public function updateBoardRow(\Kund24\Api\Models\Board $board, $boardRow) {
         $boardRow->setBoard($board);
         $data = $this->array_remove_null($boardRow->jsonSerialize());
