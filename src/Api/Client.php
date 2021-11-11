@@ -144,7 +144,7 @@ class Client {
         foreach ($result['groups'] as $g) {
             $boardGroup = new \Kund24\Api\Models\BoardGroup();
             $boardGroup->setBoard($board);
-            $boardGroup->jsonUnserialize($result['group']);
+            $boardGroup->jsonUnserialize($result['groups']);
         }
 
         return $boardGroup;
