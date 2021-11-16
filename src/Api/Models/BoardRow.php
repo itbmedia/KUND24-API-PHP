@@ -108,6 +108,7 @@ class BoardRow implements \JsonSerializable {
         return array(
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
+        	"group" => (($this->getGroup()) ? $this->getGroup()->jsonSerialize():null),
         	"values" => array_map(function($value) { return $value->jsonSerialize(); }, $this->getValues()),
         );
     }
