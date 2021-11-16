@@ -201,7 +201,7 @@ class Client {
     public function createBoardRow(\Kund24\Api\Models\Board $board, $boardRow) {
         $boardRow->setBoard($board);
         $data = $this->array_remove_null($boardRow->jsonSerialize());
-        $result = $this->makeCurlRequest('POST', '/boards/'.$board->getId().'/rows.json', $data);
+        $result = $this->makeCurlRequest('POST', '/boards/'.$board->getId().(($boardRow->getGroup()) ? '/groups/'.$boardRow->getGroup()->getId():'').'/rows.json', $data);
 
         $boardRow = new \Kund24\Api\Models\BoardRow();
         $boardRow->setBoard($board);
