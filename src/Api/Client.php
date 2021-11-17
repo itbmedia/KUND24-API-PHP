@@ -219,7 +219,7 @@ class Client {
         $result = $this->makeCurlRequest('POST', '/boards/'.$board->getId().'/rows/'.$boardRow->getId().'/move.json', $data);
 
         $boardRow = new \Kund24\Api\Models\BoardRow();
-        $boardRow->setBoard($board);
+        $boardRow->setBoard($group->getBoard());
         $boardRow->jsonUnserialize($result['row']);
 
         return $boardRow;
