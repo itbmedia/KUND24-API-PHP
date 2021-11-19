@@ -20,6 +20,10 @@ class TicketEvent implements \JsonSerializable {
 
 	private $user;
 
+	private $createdAt;
+
+	private $updatedAt;
+
 	public function __construct($message = null, $internal = false) {
 		if ($message) {
 			$this->setMessage($message);
@@ -86,6 +90,20 @@ class TicketEvent implements \JsonSerializable {
 	public function getId() {
 		return $this->id;
 	}
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
+		return $this;
+	}
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
+		return $this;
+	}
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
 	public function jsonUnserialize($data) {
 		if (array_key_exists("id", $data)) {
 			$this->setId($data['id']);
@@ -101,6 +119,12 @@ class TicketEvent implements \JsonSerializable {
 		}
 		if (array_key_exists("internal", $data)) {
 			$this->setInternal($data['internal']);
+		}
+		if (array_key_exists("created_at", $data)) {
+			$this->setCreatedAt($data['created_at']);
+		}
+		if (array_key_exists("updated_at", $data)) {
+			$this->setUpdatedAt($data['updated_at']);
 		}
 		if ((array_key_exists("contact", $data)) && ($data['contact'])) {
 			$contact = new \Kund24\Api\Models\Contact();
@@ -120,6 +144,8 @@ class TicketEvent implements \JsonSerializable {
         	"status" => $this->getStatus(),
         	"files" => $this->getFiles(),
         	"internal" => $this->getInternal(),
+        	"created_at" => $this->getCreatedAt(),
+        	"updated_at" => $this->getUpdatedAt(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"user" => (($this->getUser()) ? $this->getUser()->jsonSerialize():null),
         );
