@@ -43,7 +43,7 @@ class Board implements \JsonSerializable {
 	}
 	public function getColumnByName($name) {
 		foreach ($this->getColumns() as $column) {
-			if ($column->getTitle() == $name) {
+			if (mb_strtolower($column->getTitle()) == mb_strtolower($name)) {
 				return $column;
 			}
 		}
