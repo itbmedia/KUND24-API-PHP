@@ -97,6 +97,20 @@ class Ticket implements \JsonSerializable {
 	public function getEvents() {
 		return $this->events;
 	}
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
+		return $this;
+	}
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
+		return $this;
+	}
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
 	public function jsonUnserialize($data) {
 		if (array_key_exists("id", $data)) {
 			$this->setId($data['id']);
@@ -115,6 +129,12 @@ class Ticket implements \JsonSerializable {
 		}
 		if (array_key_exists("deadline_at", $data)) {
 			$this->setDeadlineAt($data['deadline_at']);
+		}
+		if (array_key_exists("created_at", $data)) {
+			$this->setCreatedAt($data['created_at']);
+		}
+		if (array_key_exists("updated_at", $data)) {
+			$this->setUpdatedAt($data['updated_at']);
 		}
 		if ((array_key_exists("contact", $data)) && ($data['contact'])) {
 			$contact = new \Kund24\Api\Models\Contact();
@@ -145,6 +165,8 @@ class Ticket implements \JsonSerializable {
         	"status" => $this->getStatus(),
         	"deadline_at" => $this->getDeadlineAt(),
         	"field" => $this->getField(),
+        	"created_at" => $this->getCreatedAt(),
+        	"updated_at" => $this->getUpdatedAt(),
         	"channel" => $this->getChannel(),
         	"contact" => (($this->getContact()) ? $this->getContact()->jsonSerialize():null),
         	"project" => (($this->getProject()) ? $this->getProject()->jsonSerialize():null),
