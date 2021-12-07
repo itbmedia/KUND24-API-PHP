@@ -21,6 +21,10 @@ class Ticket implements \JsonSerializable {
 
 	private $deadlineAt;
 
+	private $createdAt;
+
+	private $updatedAt;
+
 	private $events = array();
 
 	public function setContact(\Kund24\Api\Models\Contact $contact) {
