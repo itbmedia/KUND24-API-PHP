@@ -11,6 +11,8 @@ class BoardRow implements \JsonSerializable {
 
 	private $group;
 
+	private $archived;
+
 	private $values = array();
 
 	public function createValue(\Kund24\Api\Models\BoardColumn $column) {
@@ -32,6 +34,13 @@ class BoardRow implements \JsonSerializable {
 	}
 	public function getBoard() {
 		return $this->board;
+	}
+	public function setArchived($archived) {
+		$this->archived = $archived;
+		return $this;
+	}
+	public function getArchived() {
+		return $this->archived;
 	}
 	public function setGroup(\Kund24\Api\Models\BoardGroup $group) {
 		$this->group = $group;
@@ -96,6 +105,9 @@ class BoardRow implements \JsonSerializable {
 		if (array_key_exists("title", $data)) {
 			$this->setTitle($data['title']);
 		}
+		if (array_key_exists("archived", $data)) {
+			$this->setArchived($data['archived']);
+		}
 		if (array_key_exists("values", $data)) {
 			foreach ($data['values'] as $valueData) {
 				$rowValue = new \Kund24\Api\Models\BoardRowValue();
@@ -109,6 +121,7 @@ class BoardRow implements \JsonSerializable {
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
         	"group" => (($this->getGroup()) ? $this->getGroup()->jsonSerialize():null),
+        	"archived" => $this->getArchived(),
         	"values" => array_map(function($value) { return $value->jsonSerialize(); }, $this->getValues()),
         );
     }
