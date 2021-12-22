@@ -83,7 +83,7 @@ class Board implements \JsonSerializable {
 			foreach ($data['tags'] as $tagData) {
 				$tag = new \Kund24\Api\Models\BoardTag();
 				$tag->jsonUnserialize($tagData);
-				$this->addColumn($tag);
+				$this->addTag($tag);
 			}
 		}
 	}
