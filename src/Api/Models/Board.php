@@ -9,6 +9,8 @@ class Board implements \JsonSerializable {
 
 	private $columns = array();
 
+	private $tags = array();
+
 	public function createRow() {
 		$row = new \Kund24\Api\Models\BoardRow();
 		$row->setBoard($this);
@@ -31,6 +33,13 @@ class Board implements \JsonSerializable {
 	public function addColumn(\Kund24\Api\Models\BoardColumn $boardColumn) {
 		$boardColumn->setBoard($this);
 		$this->columns[] = $boardColumn;
+		return $this;
+	}
+	public function getTags() {
+		return $this->tags;
+	}
+	public function addTag(\Kund24\Api\Models\BoardTag $boardTag) {
+		$this->tags[] = $boardTag;
 		return $this;
 	}
 	public function getColumnById($id) {
@@ -70,12 +79,20 @@ class Board implements \JsonSerializable {
 				$this->addColumn($column);
 			}
 		}
+		if (array_key_exists("tags", $data)) {
+			foreach ($data['tags'] as $tagData) {
+				$tag = new \Kund24\Api\Models\BoardTag();
+				$tag->jsonUnserialize($tagData);
+				$this->addColumn($tag);
+			}
+		}
 	}
 	public function jsonSerialize() {
         return array(
         	"id" => $this->getId(),
         	"title" => $this->getTitle(),
         	"columns" => array_map(function($column) { return $column->jsonSerialize(); }, $this->getColumns()),
+        	"tags" => array_map(function($tag) { return $tag->jsonSerialize(); }, $this->getTags()),
         );
     }
 }
