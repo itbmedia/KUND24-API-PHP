@@ -240,6 +240,26 @@ class Client {
 
         return array();
     }
+    public function listBoardRowComments($boardId, $rowId) {
+        $result = $this->makeCurlRequest('GET', '/boards/'.$boardId.'/rows/'.$rowId.'/comments.json', $query);
+
+        foreach ($result['comments'] as $key => $row) {
+            $comment = new \Kund24\Api\Models\BoardRowComment();
+            $comment->jsonUnserialize($row);
+            $result['comments'][$key] = $comment;
+        }
+
+        return $result;
+    }
+    public function createBoardRowComment($boardId, $rowId, \Kund24\Api\Models\BoardRowComment $comment) {
+        $data = $this->array_remove_null($comment->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/boards/'.$boardId.'/rows/'.$rowId.'/comments.json', $data);
+
+        $comment = new \Kund24\Api\Models\BoardRowComment();
+        $comment->jsonUnserialize($result['comment']);
+
+        return $comment;
+    }
 	public function createDeal(\Kund24\Api\Models\Deal $deal) {
 		$data = $this->array_remove_null($deal->jsonSerialize());
 		$result = $this->makeCurlRequest('POST', '/deals.json', $data);
