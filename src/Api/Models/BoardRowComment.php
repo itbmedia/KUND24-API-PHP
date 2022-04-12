@@ -28,6 +28,10 @@ class BoardRowComment implements \JsonSerializable {
 	public function getMentions() {
 		return $this->mentions;
 	}
+	public function addMention(\Kund24\Api\Models\User $user) {
+		$this->mentions[] = $user;
+		return $this;
+	}
 	public function getFiles() {
 		return $this->files;
 	}
@@ -38,12 +42,19 @@ class BoardRowComment implements \JsonSerializable {
 		if (array_key_exists("comment", $data)) {
 			$this->setComment($data['comment']);
 		}
+		if ((array_key_exists("mentions", $data)) && ($data['mentions'])) {
+			foreach ($data['mentions'] as $eventData) {
+				$event = new \Kund24\Api\Models\User();
+				$event->jsonUnserialize($eventData);
+				$this->addMention($event);
+			}
+		}
 	}
 	public function jsonSerialize() {
         return array(
         	"id" => $this->getId(),
         	"comment" => $this->getComment(),
-        	"mentions" => $this->getMentions(),
+        	"mentions" => array_map(function($user) { return $user->jsonSerialize(); }, $this->getMentions()),
         	"files" => $this->getFiles(),
         );
     }
