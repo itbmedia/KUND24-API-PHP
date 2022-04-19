@@ -11,7 +11,7 @@ class Ticket implements \JsonSerializable {
 
 	private $title;
 
-	private $field;
+	private $department = 'support';
 
 	private $number;
 
@@ -48,12 +48,12 @@ class Ticket implements \JsonSerializable {
 	public function getDeadlineAt() {
 		return $this->deadlineAt;
 	}
-	public function setField($field) {
-		$this->field = $field;
+	public function setDepartment($department) {
+		$this->department = $department;
 		return $this;
 	}
-	public function getField() {
-		return $this->field;
+	public function getDepartment() {
+		return $this->department;
 	}
 	public function setTitle($title) {
 		$this->title = $title;
@@ -115,6 +115,12 @@ class Ticket implements \JsonSerializable {
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
+	public function setField($field) {
+		return $this;
+	}
+	public function getField() {
+		return '';
+	}
 	public function jsonUnserialize($data) {
 		if (array_key_exists("id", $data)) {
 			$this->setId($data['id']);
@@ -155,8 +161,8 @@ class Ticket implements \JsonSerializable {
 				$this->addEvent($event);
 			}
 		}
-		if (array_key_exists("field", $data)) {
-			$this->setField($data['field']['title']);
+		if (array_key_exists("department", $data)) {
+			$this->setDepartment($data['department']);
 		}
 	}
 	public function jsonSerialize() {
@@ -166,7 +172,7 @@ class Ticket implements \JsonSerializable {
         	"number" => $this->getNumber(),
         	"status" => $this->getStatus(),
         	"deadline_at" => $this->getDeadlineAt(),
-        	"field" => $this->getField(),
+        	"department" => $this->getDepartment(),
         	"created_at" => $this->getCreatedAt(),
         	"updated_at" => $this->getUpdatedAt(),
         	"channel" => $this->getChannel(),
