@@ -32,6 +32,10 @@ class BoardRowComment implements \JsonSerializable {
 		$this->mentions[] = $user;
 		return $this;
 	}
+	public function addFile(\Kund24\Api\Models\Upload $upload) {
+		$this->files[] = $upload;
+		return $this;
+	}
 	public function getFiles() {
 		return $this->files;
 	}
@@ -41,6 +45,13 @@ class BoardRowComment implements \JsonSerializable {
 		}
 		if (array_key_exists("comment", $data)) {
 			$this->setComment($data['comment']);
+		}
+		if ((array_key_exists("files", $data)) && ($data['files'])) {
+			foreach ($data['files'] as $eventData) {
+				$event = new \Kund24\Api\Models\Upload();
+				$event->jsonUnserialize($eventData);
+				$this->addFile($event);
+			}
 		}
 		if ((array_key_exists("mentions", $data)) && ($data['mentions'])) {
 			foreach ($data['mentions'] as $eventData) {
