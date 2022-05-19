@@ -10,6 +10,8 @@ class Contact implements \JsonSerializable {
 
 	private $bolag;
 
+	private $parent = null;
+
 	private $isCompany = false;
 
 	private $firstName;
@@ -214,6 +216,13 @@ class Contact implements \JsonSerializable {
 	public function getNote() {
 		return $this->note;
 	}
+	public function setParent(\Kund24\Api\Models\Contact $parent) {
+		$this->parent = $parent;
+		return $this;
+	}
+	public function getParent() {
+		return $this->parent;
+	}
 	public function setUsePostal($usePostal) {
         $this->usePostal = (($usePostal) ? true:false);
         return $this;
@@ -300,6 +309,9 @@ class Contact implements \JsonSerializable {
 		}
 		if (array_key_exists("parent", $data)) {
 			$this->setCompany($data['parent']['name']);
+			$parent = new \Kund24\Api\Models\Contact();
+        	$parent->jsonUnserialize($data['parent']);
+        	$this->setParent($parent);
 		}
 		if (array_key_exists("reference", $data)) {
 			$this->setReference($data['reference']);
