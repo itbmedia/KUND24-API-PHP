@@ -524,7 +524,12 @@ class Client {
 		}
         elseif (array_key_exists("error", $response)) {
             if ((is_array($response['error'])) && (array_key_exists("message", $response['error']))) {
-                throw new \Exception($response['error']['message'], $response['error']['code']);
+                if (array_key_exists("code", $response['error'])) {
+                    throw new \Exception($response['error']['message'], $response['error']['code']);
+                }
+                else {
+                    throw new \Exception($response['error']['message']);
+                }
             }
             throw new \Exception($response['error']);
         }
