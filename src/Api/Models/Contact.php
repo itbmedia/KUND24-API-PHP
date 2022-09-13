@@ -185,17 +185,7 @@ class Contact implements \JsonSerializable {
 		return $this;
 	}
 	public function addTag($tag) { 
-		if (is_string($tag)) {
-			$tag = array("title" => $tag);
-		}
-		$found = false;
-		foreach ($this->tags as $t) {
-			if (mb_strtolower($t['title']) == mb_strtolower($tag['title'])) {
-				$found = true;
-				break;
-			}
-		}
-		if (!$found) {
+		if (!in_array($tag, $this->tags)) {
 			$this->tags[] = $tag;
 		}
 		return $this;
@@ -327,7 +317,16 @@ class Contact implements \JsonSerializable {
 			$this->setReference($data['reference']);
 		}
 		if ((array_key_exists("tags", $data)) && ($data['tags'])) {
-			$this->setTags($data['tags']);
+			$tags = array();
+			foreach ($data['tags'] as $tag) {
+				if (is_string($tag)) {
+					$tags[] = $tag;
+				}
+				ELSE {
+					$tags[] = $tag['title'];
+				}
+			}
+			$this->setTags($tags);
 		}
 		if ((array_key_exists("addresses", $data)) && ($data['addresses'])) {
 			$addresses = array();
