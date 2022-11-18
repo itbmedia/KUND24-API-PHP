@@ -223,6 +223,12 @@ class Contact implements \JsonSerializable {
 	public function getParent() {
 		return $this->parent;
 	}
+	public function getParentId() {
+		if ($this->getParent()) {
+			return $this->getParent()->getId();
+		}
+		return null;
+	}
 	public function setUsePostal($usePostal) {
         $this->usePostal = (($usePostal) ? true:false);
         return $this;
@@ -387,6 +393,7 @@ class Contact implements \JsonSerializable {
         	"reference" => $this->getReference(),
         	"orgnr" => $this->getOrgnr(),
         	"tags" => $this->getTags(),
+        	"parent_id" => $this->getParentId(),
         	"metafields" => array_map(function($metafield) { return $metafield->jsonSerialize(); }, $this->getMetafields()),
         	"addresses" => array_map(function($address) { return $address->jsonSerialize(); }, $this->getAddresses()),
         	"use_postal" => $this->getUsePostal(),
