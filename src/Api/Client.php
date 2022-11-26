@@ -355,6 +355,15 @@ class Client {
 
         return $contact;
     }
+    public function sendChatMessage($chatId, \Kund24\Api\Models\ChatMessage $chatMessage) {
+        $data = $this->array_remove_null($chatMessage->jsonSerialize());
+        $result = $this->makeCurlRequest('POST', '/chats/'.$chatId.'/messages.json', $data);
+
+        $chatMessage = new \Kund24\Api\Models\ChatMessage();
+        $chatMessage->jsonUnserialize($result['message']);
+
+        return $chatMessage;
+    }
     public function listBlogs(Array $query, $offset = 0, $limit = 50) {
         $query['offset'] = $offset;
         $query['limit'] = $limit;
