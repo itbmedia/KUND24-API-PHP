@@ -526,7 +526,7 @@ class Client {
         $response = json_decode($res, true);
 
         if (!is_array($response)) {
-        	throw new \Exception('Invalid response from server');
+        	throw new \Exception('Invalid response from server: '.$res);
         }
         if (array_key_exists("message", $response)) {
 			throw new \Exception($response['message'], $response['code']);
